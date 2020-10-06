@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="ProfileBook.Views.SingInPage"
+              Title="{Binding Title}">
+    <ContentPage.Content>
+        <StackLayout>
+            <Entry x:Name="loginEntry" Placeholder = "Login"  Margin="50, 240, 50, 0" />
+            <Entry x:Name="passwordEntry"  Placeholder = "Password" IsPassword ="True" Margin="50, 0, 50, 0"/>
+            <Button Text = "SIGN IN" Margin="50, 160, 50, 0" HeightRequest="60" BackgroundColor="#D2691E" FontSize="20" BorderWidth="1" BorderColor="Black"/>
+            <Label HorizontalOptions="Center">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Sing up" TextColor="Blue" TextDecorations="Underline" FontSize="20">
+                            <Span.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding TapCommand}" CommandParameter="SingUpPage"  />
+                            </Span.GestureRecognizers>
+                        </Span>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        </StackLayout>
+    </ContentPage.Content>
+        
+</ContentPage>

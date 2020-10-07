@@ -10,7 +10,7 @@ using Xamarin.Forms;
 
 namespace ProfileBook.ViewModels
 {
-    public class SingInPageViewModel : ViewModelBase, IInitialize
+    public class SingInPageViewModel : ViewModelBase
     {
         IPageDialogService _pageDialog;
         private string _loginField;
@@ -44,15 +44,14 @@ namespace ProfileBook.ViewModels
         {
             _pageDialog.DisplayAlertAsync("", message, "OK");
         }
-        public void OnNavigatedFrom(NavigationParameters parameters)
+        public override void OnNavigatedFrom(INavigationParameters parameters)
         {
-            alert();
+
         }
-        public void Initialize(NavigationParameters parameters)
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            alert();
             LoginField = (string)parameters["login"];
-            PasswordField = (string)parameters["password"];
         }
     }
 }

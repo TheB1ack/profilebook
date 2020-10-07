@@ -86,16 +86,14 @@ namespace ProfileBook.ViewModels
             }
             return true;
         }
-        private void VerifyAndSave()
+        private async void VerifyAndSave()
         {
             if (VerifyInput())
             {
                 var parameters = new NavigationParameters();
-                parameters.Add("password", _passwordField);
                 parameters.Add("login", _loginField);
-                NavigationService.NavigateAsync("SingInPage", parameters);
-            }
-            
+                await NavigationService.NavigateAsync("SingInPage", parameters);
+            }           
         }
 
         private bool VerifyInput()

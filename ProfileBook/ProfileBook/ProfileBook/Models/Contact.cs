@@ -1,9 +1,11 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace ProfileBook.Models
 {
+    [Table("Contacts")]
     class Contact
     {
         private int contactId;
@@ -12,6 +14,12 @@ namespace ProfileBook.Models
         private string fullName;
         private DateTime addTime;
 
+        public int UserId
+        {
+            get { return userId; }
+            private set { userId = value; }
+        }
+        [PrimaryKey, AutoIncrement, Column("_id")]
         public int ContactId
         {
             get { return contactId; }

@@ -9,6 +9,5 @@ namespace ProfileBook.Models
         public int UserId { get; set; }
         public string UserLogin { get; set; }
         public string UserPassword { get; set; }
-       // public bool IsLoggedIn { get; set; }
     }
 }

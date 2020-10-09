@@ -11,9 +11,6 @@ namespace ProfileBook.Services.Repository
 {
     public class Repository: IRepository<User>
     {
-        //как проще вурнуть айди добавленного пользователя
-        //как парвильно искать логин в базе
-        //как между страницами передавать репозиторий, если объект репозитория должен быть один 
         private const string DATABASE_NAME = "UsersRepository.db";
 
         public readonly SQLiteAsyncConnection database;
@@ -30,9 +27,9 @@ namespace ProfileBook.Services.Repository
         {
             return await database.GetAsync<User>(id);
         }
-        public async Task<List<User>> GetItemsAsync()
+        public List<User> GetItems()
         {
-            return await database.Table<User>().ToListAsync();
+            return database.Table<User>().ToListAsync().Result;
         }
         public async Task<int> SaveItemAsync(User item)
         {
@@ -46,12 +43,6 @@ namespace ProfileBook.Services.Repository
                         select u;
             var r = user.ToListAsync().Result;
             return r.Count == 0? null : r[0];
-        }
-        public async void UpdateItemLogged(string userLogin, bool value)
-        {
-            var user = GetItemByLogin(userLogin);
-            //user.IsLoggedIn = value;
-            await database.UpdateAsync(user);
         }
     }
 }

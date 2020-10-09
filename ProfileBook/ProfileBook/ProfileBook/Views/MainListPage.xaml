@@ -6,14 +6,15 @@
              x:Class="ProfileBook.Views.MainListPage"
              Title="{Binding Title}">
     <ContentPage.ToolbarItems>
-        <ToolbarItem                  
+        <ToolbarItem       
+                 Command="{Binding LogOutClick}"
                  IconImageSource="ic_exit_to_app.png"
                  Order="Primary"
                  Text="LogOut"/>
         <ToolbarItem 
+                 Command="{Binding SettingsClick}"
                  IconImageSource="ic_settings.png"
-                 Order="Primary"
-                 Text="Settings"/>
+                 Order="Primary"/>
     </ContentPage.ToolbarItems>
     <StackLayout>
          

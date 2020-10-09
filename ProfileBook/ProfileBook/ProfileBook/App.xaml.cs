@@ -7,10 +7,8 @@ using Xamarin.Essentials.Implementation;
 using Xamarin.Forms;
 using ProfileBook.Services.Repository;
 using ProfileBook.Models;
-using System;
-using System.IO;
 using ProfileBook.Services.Authentication;
-using ProfileBook.Services.Authorization;
+using ProfileBook.Services.Validator;
 
 namespace ProfileBook
 {
@@ -24,8 +22,14 @@ namespace ProfileBook
         protected override async void OnInitialized()
         {
             InitializeComponent();
-
-            await NavigationService.NavigateAsync("NavigationPage/SingInPage");
+            if (App.Current.Properties.ContainsKey("UserLogin"))
+            {
+                await NavigationService.NavigateAsync("NavigationPage/MainListPage");
+            }
+            else
+            {
+                await NavigationService.NavigateAsync("NavigationPage/SingInPage");
+            }
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -34,9 +38,13 @@ namespace ProfileBook
             containerRegistry.RegisterForNavigation<SingInPage, SingInPageViewModel>();
             containerRegistry.RegisterForNavigation<SingUpPage, SingUpPageViewModel>();
             containerRegistry.RegisterForNavigation<MainListPage, MainListPageViewModel>();
+            containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();
+            containerRegistry.RegisterForNavigation<AddEditProfilePage, AddEditProfilePageViewModel>();
+
             containerRegistry.Register<IRepository<User>, Repository>();
-            containerRegistry.Register<IAuthenticationService, AuthenticationService>();
             containerRegistry.Register<IAuthorizationService, AuthorizationService>();
+            containerRegistry.Register<IValidationService, ValidationService>();
+
         }
     }
 }

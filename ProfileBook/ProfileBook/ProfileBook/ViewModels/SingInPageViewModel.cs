@@ -4,8 +4,6 @@ using Prism.Navigation;
 using Prism.Services;
 using ProfileBook.Models;
 using ProfileBook.Services.Authentication;
-using ProfileBook.Services.Authorization;
-using ProfileBook.Services.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +15,6 @@ namespace ProfileBook.ViewModels
     public class SingInPageViewModel : ViewModelBase
     {
         IPageDialogService _pageDialog;
-        IRepository<User> _repository;
-        IAuthenticationService _authenticationService;
         IAuthorizationService _authorizationService;
 
         private string _loginField;       
@@ -54,29 +50,18 @@ namespace ProfileBook.ViewModels
         public DelegateCommand SingInBClick { get; }
         public ICommand TapCommand => new Command(NavigateToNextpageAsync);
 
-        public SingInPageViewModel(INavigationService navigationService, IPageDialogService pageDialog, IAuthenticationService authenticationService, IAuthorizationService authorizationService) : base(navigationService)
+        public SingInPageViewModel(INavigationService navigationService,IPageDialogService pageDialog,IAuthorizationService authorizationService) : base(navigationService)
         {
             Title = "User SingIn";
             _pageDialog = pageDialog;
             SingInBClick = new DelegateCommand(TryToSingIn);
-            _authenticationService = authenticationService;
             _authorizationService = authorizationService;
-            //_repository = repository;
-            //TryToSingInWhenInitiolize();
         }
         private async void TryToSingIn()
         {
-            if(_repository == null)
+            if (_authorizationService.SingIn(LoginField, PasswordField))
             {
-                _repository = new Repository();
-            }
-            if (_authenticationService.SingIn(LoginField, PasswordField, _repository))
-            {
-                User user = _authorizationService.UserAuthorization(LoginField, _repository);
-                NavigationParameters parameters = new NavigationParameters();
-                parameters.Add("user", user);
-                parameters.Add("repository", _repository);
-                await NavigationService.NavigateAsync("../MainListPage", parameters);
+                await NavigationService.NavigateAsync("../MainListPage");
             }
             else
             {
@@ -84,21 +69,7 @@ namespace ProfileBook.ViewModels
                 PasswordField = "";
             }            
         }
-        //private async void TryToSingInWhenInitiolize()
-        //{
-        //    var items = _repository.GetItemsAsync().Result; //waiting 
-        //    var user = from u
-        //               in items
-        //               where u.IsLoggedIn == true
-        //               select u;
-        //    if(user.FirstOrDefault() != null)
-        //    {
-        //        NavigationParameters parameters = new NavigationParameters();
-        //        parameters.Add("user", user);
-        //        parameters.Add("repository", _repository);
-        //        await NavigationService.NavigateAsync("/MainListPage", parameters);
-        //    }
-        //}
+        
         private bool TryActivateButton()
         {
             if (_passwordField == null || _passwordField == "")
@@ -109,14 +80,11 @@ namespace ProfileBook.ViewModels
         }
         private async void NavigateToNextpageAsync()
         {
-            //NavigationParameters parameters = new NavigationParameters();
-            //parameters.Add("repository", _repository);
             await NavigationService.NavigateAsync("SingUpPage");
         }
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             LoginField = (string)parameters["login"];
-            _repository = (IRepository<User>)parameters["repository"];
         }
     }
 }

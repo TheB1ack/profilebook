@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="ProfileBook.Views.AddEditProfilePage"
+             Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem       
+                 Command="{Binding SaveClick}"
+                 IconImageSource="ic_save.png"
+                 Order="Primary"/>
+    </ContentPage.ToolbarItems>
+    <StackLayout>
+        <Image Source="{Binding ContactImage}">
+            
+        </Image>
+        <Entry Text="{Binding NickField}" Placeholder = "Nick"  Margin="50, 240, 50, 0" />
+        <Entry Text="{Binding NameField}" Placeholder = "Name"  Margin="50, 0, 50, 0" />
+        <Editor Text="{Binding DescriptionField}" Placeholder="Description" Margin="50, 20, 50, 0" HeightRequest="200" BackgroundColor="LightGray" MaxLength="120"/>
+    </StackLayout>
+
+
+</ContentPage>

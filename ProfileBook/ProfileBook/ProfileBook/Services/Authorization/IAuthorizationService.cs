@@ -1,10 +1,13 @@
 ﻿using ProfileBook.Models;
 using ProfileBook.Services.Repository;
+using System.Threading.Tasks;
 
-namespace ProfileBook.Services.Authorization
+namespace ProfileBook.Services.Authentication
 {
     public interface IAuthorizationService
     {
-        User UserAuthorization(string userLogin, IRepository<User> repository);
+        void SingUp(string userLogin, string userPassword);
+        bool SingIn(string userLogin, string userPassword);
+        void LogOut(string userLogin);
     }
 }

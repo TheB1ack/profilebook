@@ -2,6 +2,7 @@
 using Prism.Mvvm;
 using Prism.Navigation;
 using ProfileBook.Models;
+using ProfileBook.Services.Authentication;
 using ProfileBook.Services.Repository;
 using System;
 using System.Collections.Generic;
@@ -13,28 +14,30 @@ namespace ProfileBook.ViewModels
 {
     public class MainListPageViewModel : ViewModelBase
     {
-        private User _user;
-        private IRepository<User> _repository;
-        //public ICommand LogOutClick => new Command(LogOut);
-        public MainListPageViewModel(INavigationService navigationService) : base(navigationService)
+        private string UserLogin;
+        IAuthorizationService _authorizationService;
+
+        public ICommand LogOutClick => new Command(LogOut);
+        public ICommand SettingsClick => new Command(GoToSettings);
+        public MainListPageViewModel(INavigationService navigationService, IAuthorizationService authorizationService) : base(navigationService)
         {
             Title = "Main List";
+            _authorizationService = authorizationService;
         }
         private async void LogOut()
         {
-            //_repository.UpdateItemLogged(_user.UserLogin, false);
-            await NavigationService.NavigateAsync("/SingInPage");
+            _authorizationService.LogOut(UserLogin);
+            await NavigationService.NavigateAsync("../SingInPage");
         }
-
-        public override void OnNavigatedFrom(INavigationParameters parameters)
+        private async void GoToSettings()
         {
-
+            await NavigationService.NavigateAsync("SettingsPage");
         }
+
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            _user = (User)parameters["user"];
-            _repository = (IRepository<User>)parameters["repository"];
+            UserLogin = App.Current.Properties["UserLogin"].ToString();
         }
     }
 }

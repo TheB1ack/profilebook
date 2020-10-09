@@ -5,6 +5,12 @@ using ProfileBook.Views;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Forms;
+using ProfileBook.Services.Repository;
+using ProfileBook.Models;
+using System;
+using System.IO;
+using ProfileBook.Services.Authentication;
+using ProfileBook.Services.Authorization;
 
 namespace ProfileBook
 {
@@ -24,12 +30,13 @@ namespace ProfileBook
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            //containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
-
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            //containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<SingInPage, SingInPageViewModel>();
             containerRegistry.RegisterForNavigation<SingUpPage, SingUpPageViewModel>();
+            containerRegistry.RegisterForNavigation<MainListPage, MainListPageViewModel>();
+            containerRegistry.Register<IRepository<User>, Repository>();
+            containerRegistry.Register<IAuthenticationService, AuthenticationService>();
+            containerRegistry.Register<IAuthorizationService, AuthorizationService>();
         }
     }
 }

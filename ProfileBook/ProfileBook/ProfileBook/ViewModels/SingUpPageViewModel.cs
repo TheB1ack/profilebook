@@ -2,6 +2,9 @@
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
+using ProfileBook.Models;
+using ProfileBook.Services.Authentication;
+using ProfileBook.Services.Repository;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,12 +17,11 @@ namespace ProfileBook.ViewModels
 {
     public class SingUpPageViewModel : ViewModelBase
     {
-
         IPageDialogService _pageDialog;
+        IRepository<User> _repository;
+        IAuthenticationService _authenticationService;
+
         private string _loginField;
-        private string _passwordField;
-        private string _sPasswordField;
-        private bool _isButtonEnable;
         public string LoginField
         {
             get { return _loginField; }
@@ -29,6 +31,7 @@ namespace ProfileBook.ViewModels
                 IsButtonEnable = TryActivateButton();
             }
         }
+        private string _passwordField;
         public string PasswordField
         {
             get { return _passwordField; }
@@ -38,6 +41,7 @@ namespace ProfileBook.ViewModels
                 IsButtonEnable = TryActivateButton();
             }
         }
+        private string _sPasswordField;
         public string SPasswordField
         {
             get { return _sPasswordField; }
@@ -47,6 +51,7 @@ namespace ProfileBook.ViewModels
                 IsButtonEnable = TryActivateButton();
             }
         }
+        private bool _isButtonEnable;
         public bool IsButtonEnable
         {
             get { return _isButtonEnable; }
@@ -55,21 +60,22 @@ namespace ProfileBook.ViewModels
                 SetProperty(ref _isButtonEnable, value);
             }
         }
-
         public DelegateCommand SingUpBClick { get; }
 
-        public SingUpPageViewModel(INavigationService navigationService, IPageDialogService pageDialog) : base(navigationService)
+        public SingUpPageViewModel(INavigationService navigationService, IPageDialogService pageDialog, IRepository<User> repository, IAuthenticationService authenticationService) : base(navigationService)
         {
 
             Title = "User SingUp";
             _pageDialog = pageDialog;
             SingUpBClick = new DelegateCommand(VerifyAndSave);
             IsButtonEnable = false;
+            _authenticationService = authenticationService;
+            _repository = repository;
         }
-       /* private void alert(string message = "alert")
-        {
-            _pageDialog.DisplayAlertAsync("", message, "OK");
-        }*/
+        //public override void OnNavigatedTo(INavigationParameters parameters)
+        //{          
+        //    _repository = (Repository)parameters["repository"];
+        //}
         private bool TryActivateButton()
         {
             if (_loginField == null || _loginField == "")
@@ -90,9 +96,11 @@ namespace ProfileBook.ViewModels
         {
             if (VerifyInput())
             {
-                var parameters = new NavigationParameters();
+                _authenticationService.SingUp(_loginField, _passwordField, _repository);
+                NavigationParameters parameters = new NavigationParameters();
                 parameters.Add("login", _loginField);
-                await NavigationService.NavigateAsync("SingInPage", parameters);
+                parameters.Add("repository", _repository);
+                await NavigationService.GoBackAsync(parameters);
             }           
         }
 
@@ -133,7 +141,7 @@ namespace ProfileBook.ViewModels
                 return false;
             }
             return true;
-
         }
+
     }
 }

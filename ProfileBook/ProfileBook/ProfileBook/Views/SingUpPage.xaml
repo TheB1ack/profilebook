@@ -2,11 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
-             prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ProfileBook.Views.SingUpPage"
               Title="{Binding Title}">
     <StackLayout>
-        <!--<Label Text="   User SingUp" BackgroundColor="#2196F3" HeightRequest="40" VerticalTextAlignment="Center"  FontSize="20" TextColor="white" FontAttributes="Bold"/>-->
         <Entry Text="{Binding LoginField}" Placeholder = "Login"  Margin="50, 240, 50, 0" />
         <Entry Text="{Binding PasswordField}" Placeholder = "Password" IsPassword ="True" Margin="50, 0, 50, 0" />
         <Entry Text="{Binding SPasswordField}"  Placeholder = "Confirm Password" IsPassword ="True" Margin="50, 0, 50, 0" />

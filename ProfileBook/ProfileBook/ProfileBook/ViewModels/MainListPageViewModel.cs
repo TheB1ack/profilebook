@@ -19,10 +19,15 @@ namespace ProfileBook.ViewModels
 
         public ICommand LogOutClick => new Command(LogOut);
         public ICommand SettingsClick => new Command(GoToSettings);
+        public ICommand AddEditButtonClicked => new Command(GoToAddEditPage);
         public MainListPageViewModel(INavigationService navigationService, IAuthorizationService authorizationService) : base(navigationService)
         {
             Title = "Main List";
             _authorizationService = authorizationService;
+        }
+        public async void GoToAddEditPage()
+        {
+            await NavigationService.NavigateAsync("AddEditProfilePage");
         }
         private async void LogOut()
         {
@@ -33,8 +38,6 @@ namespace ProfileBook.ViewModels
         {
             await NavigationService.NavigateAsync("SettingsPage");
         }
-
-
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             UserLogin = App.Current.Properties["UserLogin"].ToString();

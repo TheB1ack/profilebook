@@ -47,14 +47,13 @@ namespace ProfileBook.ViewModels
             }
         }
 
-        public DelegateCommand SingInBClick { get; }
+        public ICommand SingInBClick => new Command(TryToSingIn);
         public ICommand TapCommand => new Command(NavigateToNextpageAsync);
 
         public SingInPageViewModel(INavigationService navigationService,IPageDialogService pageDialog,IAuthorizationService authorizationService) : base(navigationService)
         {
             Title = "User SingIn";
             _pageDialog = pageDialog;
-            SingInBClick = new DelegateCommand(TryToSingIn);
             _authorizationService = authorizationService;
         }
         private async void TryToSingIn()

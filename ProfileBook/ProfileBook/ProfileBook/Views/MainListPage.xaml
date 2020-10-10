@@ -16,8 +16,15 @@
                  IconImageSource="ic_settings.png"
                  Order="Primary"/>
     </ContentPage.ToolbarItems>
-    <StackLayout>
-         
-    </StackLayout>
+    <AbsoluteLayout>
+        <ImageButton
+            AbsoluteLayout.LayoutBounds="0.95,0.95,80,80"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            BackgroundColor="Blue"
+            Command="{Binding AddEditButtonClicked}"
+            CornerRadius="40"
+            Padding="19"
+            Source="ic_add.png"/>
+    </AbsoluteLayout>
   
 </ContentPage>

@@ -20,23 +20,19 @@ namespace ProfileBook.Services.Authentication
             };
             await _repository.SaveItemAsync(user);
         }
-        public bool SingIn(string userLogin, string userPassword)
+        public async Task<bool> SingInAsync(string userLogin, string userPassword)
         {
-            User userResult = _repository.GetUserByLogin(userLogin);
+            User userResult = await _repository.GetUserByLoginAsync(userLogin);
             if (userResult?.UserPassword == userPassword)
             {
-                //CrossAutoLogin.Current.SaveUserInfos(userLogin, userPassword);
                 App.Current.Properties.Add("User", userResult);
-               // App.Current.Properties.Add("UserLogin", userResult.UserLogin);
                 return true;
             }
             return false;
         }
         public void LogOut(string userLogin)
         {
-            //CrossAutoLogin.Current.DeleteUserInfos();
             App.Current.Properties.Remove("User");
-            //App.Current.Properties.Remove("UserLogin");
         }
     }
 }

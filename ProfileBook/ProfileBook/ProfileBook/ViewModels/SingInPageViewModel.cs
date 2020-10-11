@@ -47,7 +47,7 @@ namespace ProfileBook.ViewModels
             }
         }
 
-        public ICommand SingInBClick => new Command(TryToSingIn);
+        public ICommand SingInBClick => new Command(TryToSingInAsync);
         public ICommand TapCommand => new Command(NavigateToNextpageAsync);
 
         public SingInPageViewModel(INavigationService navigationService,IPageDialogService pageDialog,IAuthorizationService authorizationService) : base(navigationService)
@@ -57,9 +57,10 @@ namespace ProfileBook.ViewModels
             IsButtonEnable = false;
             _authorizationService = authorizationService;
         }
-        private async void TryToSingIn()
+        private async void TryToSingInAsync()
         {
-            if (_authorizationService.SingIn(LoginField, PasswordField))
+            bool isValid = await _authorizationService.SingInAsync(LoginField, PasswordField);
+            if (isValid)
             {
                 await NavigationService.NavigateAsync("../MainListPage");
             }

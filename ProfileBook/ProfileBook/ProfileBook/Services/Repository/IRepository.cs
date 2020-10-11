@@ -6,12 +6,12 @@ namespace ProfileBook.Services.Repository
 {
     public interface IRepository<T> where T : class, new()
     {
-        Task<List<T>> GetItems();
+        Task<IEnumerable<T>> GetItemsAsync<T>() where T : class, new();
         Task<T> GetItemAsync(int id);
         Task<int> DeleteItemAsync(T item);
         Task<int> SaveItemAsync(T item);
-        User GetUserByLogin(string userLogin);
+        Task<User> GetUserByLoginAsync(string userLogin);
         void UpdateItemAsync(T item);
-        List<Contact> GetContactsById(int userId);
+        Task<List<Contact>> GetContactsByIdAsync(int userId);
     }
 }

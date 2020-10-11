@@ -24,14 +24,18 @@ namespace ProfileBook
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            //if (CrossAutoLogin.Current.UserIsSaved)
-            //{
-            //    await NavigationService.NavigateAsync("NavigationPage/MainListPage");
-            //}
-            //else
-            //{
-            await NavigationService.NavigateAsync("NavigationPage/SingInPage");
-            //}
+            if (App.Current.Properties.ContainsKey("User"))
+            {
+                var user = Current.Properties["User"];
+                if (user != null)
+                {
+                    await NavigationService.NavigateAsync("NavigationPage/MainListPage");
+                }                                               
+            }
+            else
+            {
+                await NavigationService.NavigateAsync("NavigationPage/SingInPage");
+            }
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

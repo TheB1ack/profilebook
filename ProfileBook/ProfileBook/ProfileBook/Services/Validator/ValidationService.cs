@@ -29,11 +29,11 @@ namespace ProfileBook.Services.Validator
                 _pageDialog.DisplayAlertAsync("", "Login musn't start with numbers!", "OK");
                 return false;
             }
-            if (_repository.GetUserByLogin(login) != null)
-            {
-                _pageDialog.DisplayAlertAsync("", "This login is already taken!", "OK");
-                return false;
-            }
+            //if (_repository.GetUserByLogin(login) != null)
+            //{
+            //    _pageDialog.DisplayAlertAsync("", "This login is already taken!", "OK");
+            //    return false;
+            //}
             if (!System.Text.RegularExpressions.Regex.IsMatch(password, @"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])") || password.Length <= 8 || password.Length >= 16)
             {
                 _pageDialog.DisplayAlertAsync("", "Password must be at least 8 and no more than 16 and must contain at least one uppercase letter, one lowercase letter and one number!", "OK");

@@ -4,6 +4,7 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ProfileBook.Views.MainListPage"
+             x:Name="_this"
              Title="{Binding Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem       
@@ -24,11 +25,12 @@
                     <ViewCell>
                         <ViewCell.ContextActions>
                             <MenuItem Text="Edit"
-                                      Command="{Binding EditTap}"
-                                      CommandParameter="{Binding}"/>
+                                      Command="{Binding BindingContext.EditTap, Source={x:Reference _this}}"
+                                      CommandParameter="{Binding .}"/>
                             <MenuItem Text="Delete"
-                                      Command="{Binding DeleteTap}"
-                                      CommandParameter="{Binding}" />
+                                      Command="{Binding BindingContext.DeleteTap, Source={x:Reference _this}}"
+                                      CommandParameter="{Binding .}"
+                                      IsDestructive="True"/>
                         </ViewCell.ContextActions>
                         <ViewCell.View>
                         <StackLayout Orientation="Horizontal">

@@ -5,6 +5,7 @@ using ProfileBook.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace ProfileBook.Services.Profile
@@ -18,7 +19,7 @@ namespace ProfileBook.Services.Profile
             _repositoryC = repositoryС;
             _repositoryU = repositoryU;
         }
-        public void AddEditContact(string newName, string newNick, string newDescription, string newImage, string userLogin, Contact oldContact)
+        public void AddOrEditContact(string newName, string newNick, string newDescription, string newImage, int  userId, Contact oldContact)
         {
             if (oldContact != null)
             {
@@ -30,7 +31,6 @@ namespace ProfileBook.Services.Profile
             }
             else
             {
-                int userId = _repositoryU.GetUserByLogin(userLogin).UserId;
                 Contact contact = new Contact()
                 {
                     FullName = newName,
@@ -47,10 +47,9 @@ namespace ProfileBook.Services.Profile
         {
             _repositoryC.DeleteItemAsync(oldContact);
         }
-        public List<Contact> GetListOfContacts(string userLogin)
+        public  Task<List<Contact>> GetListOfContacts(int userId)
         {
-            int userId = _repositoryU.GetUserByLogin(userLogin).UserId;
-            return _repositoryC.GetContactsById(userId);
+            return _repositoryC.GetContactsByIdAsync(userId);
         }
     }
 }

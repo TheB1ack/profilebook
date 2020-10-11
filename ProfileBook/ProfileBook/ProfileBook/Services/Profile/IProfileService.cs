@@ -2,14 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace ProfileBook.Services.Profile
 {
     public interface IProfileService
     {
-        void AddEditContact(string newName, string newNick, string mewDescription, string newImage, string userLogin, Contact oldContact);
+        void AddOrEditContact(string newName, string newNick, string mewDescription, string newImage, int userId, Contact oldContact);
         void RemoveContact(Contact oldContact);
-        List<Contact> GetListOfContacts(string userLogin);
+        Task<List<Contact>> GetListOfContacts(int userId);
     }
 }

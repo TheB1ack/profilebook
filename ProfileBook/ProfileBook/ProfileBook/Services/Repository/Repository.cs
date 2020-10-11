@@ -27,7 +27,7 @@ namespace ProfileBook.Services.Repository
         {
             return await database.GetAsync<T>(id);
         }
-        public async Task<List<T>> GetItems() //асинхронность?
+        public async Task<IEnumerable<T>> GetItemsAsync<T>()  where T : class, new()
         {
             return await database.Table<T>().ToListAsync();
         }
@@ -39,23 +39,15 @@ namespace ProfileBook.Services.Repository
         {
             await database.UpdateAsync(item);
         }
-        public User GetUserByLogin(string userLogin)
+        public async Task<User> GetUserByLoginAsync(string userLogin)
         {
-            var user =  from u 
-                        in database.Table<User>() //асинхронность?
-                        where u.UserLogin == userLogin
-                        select u;
-            var r = user.ToListAsync().Result; //асинхронность?
-            return r.Count == 0? null : r[0];
+            var items = await GetItemsAsync<User>();
+            return items.Where(x => x.UserLogin == userLogin).FirstOrDefault();
         }
-        public List<Contact> GetContactsById(int userId)
+        public async Task<List<Contact>> GetContactsByIdAsync(int userId)
         {
-            var contacts = from c 
-                           in database.Table<Contact>() //асинхронность?
-                           where c.UserId == userId
-                           select c;
-            var r = contacts.ToListAsync().Result; //асинхронность? //зависает
-            return r.Count == 0 ? null : r; ;
+            var items = await GetItemsAsync<Contact>();
+            return items.Where(x => x.UserId == userId).ToList();
         }
     }
 }

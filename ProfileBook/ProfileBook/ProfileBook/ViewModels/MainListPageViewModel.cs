@@ -36,7 +36,7 @@ namespace ProfileBook.ViewModels
                 SetProperty(ref _isVisibleText, value);
             }
         }
-        public ICommand EditTap => new Command(GoToSettings);
+        public ICommand EditTap => new Command(GoToAddEditPage);
         public ICommand DeleteTap => new Command(DeleteContact);
         public ICommand LogOutClick => new Command(LogOut);
         public ICommand SettingsClick => new Command(GoToSettings);
@@ -57,7 +57,6 @@ namespace ProfileBook.ViewModels
         private async void LogOut()
         {
             User user = (User)App.Current.Properties["User"];
-            //string userLogin = CrossAutoLogin.Current.UserEmail;
             _authorizationService.LogOut(user.UserLogin);
             await NavigationService.NavigateAsync("../SingInPage");
         }
@@ -70,10 +69,10 @@ namespace ProfileBook.ViewModels
         {
             await NavigationService.NavigateAsync("SettingsPage");
         }
-        private void TryFillTheList()
+        private async void TryFillTheList()
         {
             User user = (User)App.Current.Properties["User"];
-            ListItems = _profileService.GetListOfContacts(user.UserLogin);
+            ListItems = await _profileService.GetListOfContacts(user.UserId);
             if(ListItems == null)
             {
                 IsVisibleText = true;

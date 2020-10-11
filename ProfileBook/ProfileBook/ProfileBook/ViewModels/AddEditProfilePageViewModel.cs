@@ -69,8 +69,8 @@ namespace ProfileBook.ViewModels
         }
 
         public async void GetNewPhoto()
-
         {
+
             string actionSheet = await _pageDialog.DisplayActionSheetAsync("Choose photo", "Cancel", null, "Pick at Gallery", "Take photo with camera");  //для картинок юзать только пакет?
 
             switch (actionSheet)
@@ -115,7 +115,7 @@ namespace ProfileBook.ViewModels
         private async void SaveContact()
         {
             User user = (User)App.Current.Properties["User"];    
-            _profileService.AddEditContact(NameField ?? "", NickField ?? "", DescriptionField ?? "", ImageSource, user.UserLogin, _contact);
+            _profileService.AddOrEditContact(NameField ?? "", NickField ?? "", DescriptionField ?? "", ImageSource, user.UserId, _contact);
             await NavigationService.GoBackAsync();
         }
         public override void OnNavigatedTo(INavigationParameters parameters)

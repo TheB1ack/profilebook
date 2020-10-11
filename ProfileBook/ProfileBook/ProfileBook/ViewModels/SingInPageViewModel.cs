@@ -54,6 +54,7 @@ namespace ProfileBook.ViewModels
         {
             Title = "User SingIn";
             _pageDialog = pageDialog;
+            IsButtonEnable = false;
             _authorizationService = authorizationService;
         }
         private async void TryToSingIn()

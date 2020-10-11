@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
@@ -60,13 +61,12 @@ namespace ProfileBook.ViewModels
                 SetProperty(ref _isButtonEnable, value);
             }
         }
-        public DelegateCommand SingUpBClick { get; }
+        public ICommand SingUpBClick => new Command(VerifyAndSave);
 
         public SingUpPageViewModel(INavigationService navigationService, IAuthorizationService authorizationService, IValidationService validationService) : base(navigationService)
         {
 
             Title = "User SingUp";
-            SingUpBClick = new DelegateCommand(VerifyAndSave);
             IsButtonEnable = false;
             _authorizationService = authorizationService;
             _validationService = validationService;

@@ -3,6 +3,7 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using ProfileBook.Models;
 using ProfileBook.Services.Authentication;
+using ProfileBook.Services.Profile;
 using ProfileBook.Services.Repository;
 using System;
 using System.Collections.Generic;
@@ -14,33 +15,78 @@ namespace ProfileBook.ViewModels
 {
     public class MainListPageViewModel : ViewModelBase
     {
-        private string UserLogin;
         IAuthorizationService _authorizationService;
+        IProfileService _profileService;
 
+        private List<Contact> _listItems;
+        public List<Contact> ListItems
+        {
+            get { return _listItems; }
+            set
+            {
+                SetProperty(ref _listItems, value);
+            }
+        }
+        private bool _isVisibleText;
+        public bool IsVisibleText
+        {
+            get { return _isVisibleText; }
+            set
+            {
+                SetProperty(ref _isVisibleText, value);
+            }
+        }
+        public ICommand EditTap => new Command(GoToSettings);
+        public ICommand DeleteTap => new Command(DeleteContact);
         public ICommand LogOutClick => new Command(LogOut);
         public ICommand SettingsClick => new Command(GoToSettings);
         public ICommand AddEditButtonClicked => new Command(GoToAddEditPage);
-        public MainListPageViewModel(INavigationService navigationService, IAuthorizationService authorizationService) : base(navigationService)
+        public MainListPageViewModel(INavigationService navigationService, IAuthorizationService authorizationService, IProfileService profileService) : base(navigationService)
         {
             Title = "Main List";
             _authorizationService = authorizationService;
+            _profileService = profileService;
         }
-        public async void GoToAddEditPage()
+        private async void GoToAddEditPage(object item = null)
         {
-            await NavigationService.NavigateAsync("AddEditProfilePage");
+            Contact selectedContact = item as Contact;
+            NavigationParameters parameters = new NavigationParameters();
+            parameters.Add("contact", selectedContact);
+            await NavigationService.NavigateAsync("AddEditProfilePage", parameters);
         }
         private async void LogOut()
         {
-            _authorizationService.LogOut(UserLogin);
+            User user = (User)App.Current.Properties["User"];
+            //string userLogin = CrossAutoLogin.Current.UserEmail;
+            _authorizationService.LogOut(user.UserLogin);
             await NavigationService.NavigateAsync("../SingInPage");
+        }
+        private void DeleteContact(object item)
+        {
+            _profileService.RemoveContact(item as Contact);
+            TryFillTheList();
         }
         private async void GoToSettings()
         {
             await NavigationService.NavigateAsync("SettingsPage");
         }
+        private void TryFillTheList()
+        {
+            User user = (User)App.Current.Properties["User"];
+            ListItems = _profileService.GetListOfContacts(user.UserLogin);
+            if(ListItems == null)
+            {
+                IsVisibleText = true;
+            }
+            else
+            {
+                IsVisibleText = false;
+            }
+        }
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            UserLogin = App.Current.Properties["UserLogin"].ToString();
+            ListItems?.Clear();
+            TryFillTheList();
         }
     }
 }

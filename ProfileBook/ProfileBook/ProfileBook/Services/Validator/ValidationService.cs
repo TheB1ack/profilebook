@@ -29,7 +29,7 @@ namespace ProfileBook.Services.Validator
                 _pageDialog.DisplayAlertAsync("", "Login musn't start with numbers!", "OK");
                 return false;
             }
-            if (_repository.GetItemByLogin(login) != null)
+            if (_repository.GetUserByLogin(login) != null)
             {
                 _pageDialog.DisplayAlertAsync("", "This login is already taken!", "OK");
                 return false;

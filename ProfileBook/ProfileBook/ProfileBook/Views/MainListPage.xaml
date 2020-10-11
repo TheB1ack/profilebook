@@ -9,14 +9,51 @@
         <ToolbarItem       
                  Command="{Binding LogOutClick}"
                  IconImageSource="ic_exit_to_app.png"
-                 Order="Primary"
-                 Text="LogOut"/>
+                 Order="Primary"/>
         <ToolbarItem 
                  Command="{Binding SettingsClick}"
                  IconImageSource="ic_settings.png"
                  Order="Primary"/>
     </ContentPage.ToolbarItems>
     <AbsoluteLayout>
+        <ListView HasUnevenRows="True"
+                  ItemsSource="{Binding ListItems}"
+                  SeparatorVisibility="None">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="Edit"
+                                      Command="{Binding EditTap}"
+                                      CommandParameter="{Binding}"/>
+                            <MenuItem Text="Delete"
+                                      Command="{Binding DeleteTap}"
+                                      CommandParameter="{Binding}" />
+                        </ViewCell.ContextActions>
+                        <ViewCell.View>
+                        <StackLayout Orientation="Horizontal">
+                            <Image Source="{Binding ImageSource, Mode=TwoWay}" 
+                                       HeightRequest="100" 
+                                       WidthRequest="100"/>
+                            <StackLayout Orientation="Vertical" 
+                                             Padding="5,5,0,5">
+                                <Label Text="{Binding NickName}"  
+                                           FontSize="17" 
+                                           FontAttributes="Bold"/>
+                                <Label Text="{Binding FullName}" 
+                                           FontSize="17"/>
+                                <Label Text="{Binding AddTime}" 
+                                           FontSize="17"/>
+                            </StackLayout>
+                        </StackLayout>
+                        </ViewCell.View>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Label Text="No profiles added" 
+               IsVisible="{Binding IsVisibleText}"
+               Margin="100,300,100,300"/>
         <ImageButton
             AbsoluteLayout.LayoutBounds="0.95,0.95,80,80"
             AbsoluteLayout.LayoutFlags="PositionProportional"

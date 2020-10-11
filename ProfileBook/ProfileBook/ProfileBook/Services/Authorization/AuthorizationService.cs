@@ -22,17 +22,21 @@ namespace ProfileBook.Services.Authentication
         }
         public bool SingIn(string userLogin, string userPassword)
         {
-            User userResult = _repository.GetItemByLogin(userLogin);
+            User userResult = _repository.GetUserByLogin(userLogin);
             if (userResult?.UserPassword == userPassword)
             {
-                App.Current.Properties.Add("UserLogin", userLogin);
+                //CrossAutoLogin.Current.SaveUserInfos(userLogin, userPassword);
+                App.Current.Properties.Add("User", userResult);
+               // App.Current.Properties.Add("UserLogin", userResult.UserLogin);
                 return true;
             }
             return false;
         }
         public void LogOut(string userLogin)
         {
-            App.Current.Properties.Remove("UserLogin");
+            //CrossAutoLogin.Current.DeleteUserInfos();
+            App.Current.Properties.Remove("User");
+            //App.Current.Properties.Remove("UserLogin");
         }
     }
 }

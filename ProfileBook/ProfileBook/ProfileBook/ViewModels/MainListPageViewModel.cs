@@ -1,15 +1,9 @@
 ﻿using Acr.UserDialogs;
-using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
-using Prism.Services;
 using ProfileBook.Models;
 using ProfileBook.Services.Authentication;
 using ProfileBook.Services.Profile;
-using ProfileBook.Services.Repository;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -19,7 +13,6 @@ namespace ProfileBook.ViewModels
     {
         IAuthorizationService _authorizationService;
         IProfileService _profileService;
-        IPageDialogService _pageDialog;
 
         private List<Contact> _listItems;
         public List<Contact> ListItems
@@ -45,12 +38,11 @@ namespace ProfileBook.ViewModels
         public ICommand LogOutClick => new Command(LogOut);
         public ICommand SettingsClick => new Command(GoToSettings);
         public ICommand AddEditButtonClicked => new Command(GoToAddEditPage);
-        public MainListPageViewModel(INavigationService navigationService, IPageDialogService pageDialog, IAuthorizationService authorizationService, IProfileService profileService) : base(navigationService)
+        public MainListPageViewModel(INavigationService navigationService, IAuthorizationService authorizationService, IProfileService profileService) : base(navigationService)
         {
             Title = "Main List";
             _authorizationService = authorizationService;
             _profileService = profileService;
-            _pageDialog = pageDialog;
         }
         private async void GoToAddEditPage(object item = null)
         {
@@ -61,8 +53,7 @@ namespace ProfileBook.ViewModels
         }
         private async void LogOut()
         {
-            User user = (User)App.Current.Properties["User"];
-            _authorizationService.LogOut(user.UserLogin);
+            _authorizationService.LogOut();
             await NavigationService.NavigateAsync("../SingInPage");
         }
         private async void TryToDeleteContact(object item)
@@ -84,9 +75,8 @@ namespace ProfileBook.ViewModels
         }
         private async void TryFillTheList()
         {
-            //ListItems = null;
-            User user = (User)App.Current.Properties["User"];
-            ListItems = await _profileService.GetListOfContacts(user.UserId);
+            int userId = (int)App.Current.Properties["userId"];
+            ListItems = await _profileService.GetListOfContacts(userId);
             if(ListItems.Count == 0)
             {
                 IsVisibleText = true;

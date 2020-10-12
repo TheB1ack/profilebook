@@ -1,4 +1,5 @@
-﻿using ProfileBook.Models;
+﻿using Acr.UserDialogs;
+using ProfileBook.Models;
 using ProfileBook.Services.Repository;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,31 +13,48 @@ namespace ProfileBook.Services.Authentication
         {
             _repository = repository;
         }
-        public async void SingUp(string userLogin, string userPassword)
+        public async Task<bool> SingUpAsync(string userLogin, string userPassword)
         {
-            User user = new User()
+            var items = await _repository.GetItemsAsync<User>();
+            User userResult = items.Where(x => x.UserLogin == userLogin).FirstOrDefault();
+            if (userResult != null)
             {
-                UserLogin = userLogin,
-                UserPassword = userPassword,
-            };
-            await _repository.SaveItemAsync(user);
+                UserDialogs.Instance.Alert("This login is already taken!","", "OK");
+                return false;
+            }
+            else
+            {
+                User user = new User()
+                {
+                    UserLogin = userLogin,
+                    UserPassword = userPassword,
+                };
+                await _repository.SaveItemAsync(user);
+            }
+            return true;
         }
         public async Task<bool> SingInAsync(string userLogin, string userPassword)
         {
-            //User userResult = await _repository.GetUserByLoginAsync(userLogin);
             var items = await _repository.GetItemsAsync<User>();
             User userResult = items.Where(x => x.UserLogin == userLogin).FirstOrDefault();
 
             if (userResult?.UserPassword == userPassword)
             {
-                App.Current.Properties.Add("User", userResult);
+                if (!App.Current.Properties.ContainsKey("userId"))
+                {
+                    App.Current.Properties.Add("userId", userResult.UserId);
+                }
+                else
+                {
+                    App.Current.Properties["userId"] = userResult.UserId;
+                }
                 return true;
             }
             return false;
         }
-        public void LogOut(string userLogin)
+        public void LogOut()
         {
-            App.Current.Properties.Remove("User");
+            App.Current.Properties["userId"] = -1;
         }
     }
 }

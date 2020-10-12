@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using Acr.UserDialogs;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
@@ -14,7 +15,6 @@ namespace ProfileBook.ViewModels
 {
     public class SingInPageViewModel : ViewModelBase
     {
-        IPageDialogService _pageDialog;
         IAuthorizationService _authorizationService;
 
         private string _loginField;       
@@ -50,10 +50,9 @@ namespace ProfileBook.ViewModels
         public ICommand SingInBClick => new Command(TryToSingInAsync);
         public ICommand TapCommand => new Command(NavigateToNextpageAsync);
 
-        public SingInPageViewModel(INavigationService navigationService,IPageDialogService pageDialog,IAuthorizationService authorizationService) : base(navigationService)
+        public SingInPageViewModel(INavigationService navigationService,IAuthorizationService authorizationService) : base(navigationService)
         {
             Title = "User SingIn";
-            _pageDialog = pageDialog;
             IsButtonEnable = false;
             _authorizationService = authorizationService;
         }
@@ -66,7 +65,7 @@ namespace ProfileBook.ViewModels
             }
             else
             {
-                await _pageDialog.DisplayAlertAsync("", "Invalid login or password!", "OK");
+                await UserDialogs.Instance.AlertAsync("Invalid login or password!", "", "OK");
                 PasswordField = "";
             }            
         }

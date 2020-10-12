@@ -8,7 +8,6 @@ using Xamarin.Forms;
 using ProfileBook.Services.Repository;
 using ProfileBook.Models;
 using ProfileBook.Services.Authentication;
-using ProfileBook.Services.Validator;
 using ProfileBook.Services.Profile;
 using Xamarin.Forms.Internals;
 
@@ -24,13 +23,9 @@ namespace ProfileBook
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            if (App.Current.Properties.ContainsKey("User"))
+            if (App.Current.Properties.ContainsKey("userId") && (int)App.Current.Properties["userId"] != -1)
             {
-                var user = Current.Properties["User"];
-                if (user != null)
-                {
-                    await NavigationService.NavigateAsync("NavigationPage/MainListPage");
-                }                                               
+                await NavigationService.NavigateAsync("NavigationPage/MainListPage");                                              
             }
             else
             {
@@ -51,7 +46,6 @@ namespace ProfileBook
             containerRegistry.RegisterInstance<IRepository<User>>(Container.Resolve<Repository<User>>());
             containerRegistry.RegisterInstance<IRepository<Contact>>(Container.Resolve<Repository<Contact>>());
             containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
-            containerRegistry.RegisterInstance<IValidationService>(Container.Resolve<ValidationService>());
             containerRegistry.RegisterInstance<IProfileService>(Container.Resolve<ProfileService>());
         }
     }

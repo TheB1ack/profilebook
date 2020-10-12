@@ -8,7 +8,6 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem       
                  Command="{Binding SaveClick}"
-                 IsEnabled="{Binding IsButtonEnable}"
                  IconImageSource="ic_save.png"
                  Order="Primary"/>
     </ContentPage.ToolbarItems>

@@ -111,8 +111,8 @@ namespace ProfileBook.ViewModels
             }
             else
             {
-                User user = (User)App.Current.Properties["User"];
-                _profileService.AddOrEditContact(NameField ?? "", NickField ?? "", DescriptionField ?? "", ImageSource, user.UserId, _contact);
+                int userId = (int)App.Current.Properties["userId"];
+                _profileService.AddOrEditContact(NameField ?? "", NickField ?? "", DescriptionField ?? "", ImageSource, userId, _contact);
                 await NavigationService.GoBackAsync();
             }
         }

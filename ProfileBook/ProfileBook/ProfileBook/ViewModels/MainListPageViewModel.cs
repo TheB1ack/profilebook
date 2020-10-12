@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using Plugin.Settings;
 using Prism.Navigation;
 using ProfileBook.Models;
 using ProfileBook.Services.Authentication;
@@ -75,7 +76,7 @@ namespace ProfileBook.ViewModels
         }
         private async void TryFillTheList()
         {
-            int userId = (int)App.Current.Properties["userId"];
+            int userId = CrossSettings.Current.GetValueOrDefault("UserId", -1);
             ListItems = await _profileService.GetListOfContacts(userId);
             if(ListItems.Count == 0)
             {

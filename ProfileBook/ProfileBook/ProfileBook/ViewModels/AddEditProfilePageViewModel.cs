@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
+using Plugin.Settings;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -111,7 +112,7 @@ namespace ProfileBook.ViewModels
             }
             else
             {
-                int userId = (int)App.Current.Properties["userId"];
+                int userId = CrossSettings.Current.GetValueOrDefault("UserId", -1);
                 _profileService.AddOrEditContact(NameField ?? "", NickField ?? "", DescriptionField ?? "", ImageSource, userId, _contact);
                 await NavigationService.GoBackAsync();
             }

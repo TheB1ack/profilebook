@@ -1,6 +1,8 @@
 ﻿using Acr.UserDialogs;
+using Plugin.Settings;
 using ProfileBook.Models;
 using ProfileBook.Services.Repository;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -40,21 +42,14 @@ namespace ProfileBook.Services.Authentication
 
             if (userResult?.UserPassword == userPassword)
             {
-                if (!App.Current.Properties.ContainsKey("userId"))
-                {
-                    App.Current.Properties.Add("userId", userResult.UserId);
-                }
-                else
-                {
-                    App.Current.Properties["userId"] = userResult.UserId;
-                }
+                CrossSettings.Current.AddOrUpdateValue("UserId", userResult.UserId);
                 return true;
             }
             return false;
         }
         public void LogOut()
         {
-            App.Current.Properties["userId"] = -1;
+            CrossSettings.Current.Remove("UserId");
         }
     }
 }

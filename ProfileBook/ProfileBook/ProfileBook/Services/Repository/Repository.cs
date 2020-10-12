@@ -39,15 +39,5 @@ namespace ProfileBook.Services.Repository
         {
             await database.UpdateAsync(item);
         }
-        public async Task<User> GetUserByLoginAsync(string userLogin)
-        {
-            var items = await GetItemsAsync<User>();
-            return items.Where(x => x.UserLogin == userLogin).FirstOrDefault();
-        }
-        public async Task<List<Contact>> GetContactsByIdAsync(int userId)
-        {
-            var items = await GetItemsAsync<Contact>();
-            return items.Where(x => x.UserId == userId).ToList();
-        }
     }
 }

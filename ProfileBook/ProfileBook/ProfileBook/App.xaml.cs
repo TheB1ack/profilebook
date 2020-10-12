@@ -47,12 +47,12 @@ namespace ProfileBook
             containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();
             containerRegistry.RegisterForNavigation<AddEditProfilePage, AddEditProfilePageViewModel>();
 
-            containerRegistry.Register<IRepository<User>, Repository<User>>();
-            containerRegistry.Register<IRepository<Contact>, Repository<Contact>>();
-            containerRegistry.Register<IAuthorizationService, AuthorizationService>();
-            containerRegistry.Register<IValidationService, ValidationService>();
-            containerRegistry.Register<IProfileService, ProfileService>();
-
+            
+            containerRegistry.RegisterInstance<IRepository<User>>(Container.Resolve<Repository<User>>());
+            containerRegistry.RegisterInstance<IRepository<Contact>>(Container.Resolve<Repository<Contact>>());
+            containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
+            containerRegistry.RegisterInstance<IValidationService>(Container.Resolve<ValidationService>());
+            containerRegistry.RegisterInstance<IProfileService>(Container.Resolve<ProfileService>());
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ProfileBook.Models;
 using ProfileBook.Services.Repository;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProfileBook.Services.Authentication
@@ -22,7 +23,10 @@ namespace ProfileBook.Services.Authentication
         }
         public async Task<bool> SingInAsync(string userLogin, string userPassword)
         {
-            User userResult = await _repository.GetUserByLoginAsync(userLogin);
+            //User userResult = await _repository.GetUserByLoginAsync(userLogin);
+            var items = await _repository.GetItemsAsync<User>();
+            User userResult = items.Where(x => x.UserLogin == userLogin).FirstOrDefault();
+
             if (userResult?.UserPassword == userPassword)
             {
                 App.Current.Properties.Add("User", userResult);

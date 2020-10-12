@@ -86,6 +86,7 @@ namespace ProfileBook.ViewModels
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             LoginField = (string)parameters["login"];
+            PasswordField = "";
         }
     }
 }

@@ -10,8 +10,6 @@ namespace ProfileBook.Services.Repository
         Task<T> GetItemAsync(int id);
         Task<int> DeleteItemAsync(T item);
         Task<int> SaveItemAsync(T item);
-        Task<User> GetUserByLoginAsync(string userLogin);
         void UpdateItemAsync(T item);
-        Task<List<Contact>> GetContactsByIdAsync(int userId);
     }
 }

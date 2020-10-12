@@ -1,6 +1,8 @@
-﻿using Prism.Commands;
+﻿using Acr.UserDialogs;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
+using Prism.Services;
 using ProfileBook.Models;
 using ProfileBook.Services.Authentication;
 using ProfileBook.Services.Profile;
@@ -17,6 +19,7 @@ namespace ProfileBook.ViewModels
     {
         IAuthorizationService _authorizationService;
         IProfileService _profileService;
+        IPageDialogService _pageDialog;
 
         private List<Contact> _listItems;
         public List<Contact> ListItems
@@ -36,16 +39,18 @@ namespace ProfileBook.ViewModels
                 SetProperty(ref _isVisibleText, value);
             }
         }
+
         public ICommand EditTap => new Command(GoToAddEditPage);
-        public ICommand DeleteTap => new Command(DeleteContact);
+        public ICommand DeleteTap => new Command(TryToDeleteContact);
         public ICommand LogOutClick => new Command(LogOut);
         public ICommand SettingsClick => new Command(GoToSettings);
         public ICommand AddEditButtonClicked => new Command(GoToAddEditPage);
-        public MainListPageViewModel(INavigationService navigationService, IAuthorizationService authorizationService, IProfileService profileService) : base(navigationService)
+        public MainListPageViewModel(INavigationService navigationService, IPageDialogService pageDialog, IAuthorizationService authorizationService, IProfileService profileService) : base(navigationService)
         {
             Title = "Main List";
             _authorizationService = authorizationService;
             _profileService = profileService;
+            _pageDialog = pageDialog;
         }
         private async void GoToAddEditPage(object item = null)
         {
@@ -60,10 +65,18 @@ namespace ProfileBook.ViewModels
             _authorizationService.LogOut(user.UserLogin);
             await NavigationService.NavigateAsync("../SingInPage");
         }
-        private void DeleteContact(object item)
+        private async void TryToDeleteContact(object item)
         {
-            _profileService.RemoveContact(item as Contact);
-            TryFillTheList();
+            Contact contact = item as Contact;
+            var result = await UserDialogs.Instance.ConfirmAsync(new ConfirmConfig()
+                .SetTitle($"Delete contact {contact.NickName} ?")
+                .SetCancelText("Cancel")
+                .SetOkText("Delete"));
+            if (result)
+            {
+                _profileService.RemoveContact(contact);
+                TryFillTheList();
+            }
         }
         private async void GoToSettings()
         {
@@ -71,9 +84,10 @@ namespace ProfileBook.ViewModels
         }
         private async void TryFillTheList()
         {
+            //ListItems = null;
             User user = (User)App.Current.Properties["User"];
             ListItems = await _profileService.GetListOfContacts(user.UserId);
-            if(ListItems == null)
+            if(ListItems.Count == 0)
             {
                 IsVisibleText = true;
             }
@@ -83,8 +97,7 @@ namespace ProfileBook.ViewModels
             }
         }
         public override void OnNavigatedTo(INavigationParameters parameters)
-        {
-            ListItems?.Clear();
+        {  
             TryFillTheList();
         }
     }

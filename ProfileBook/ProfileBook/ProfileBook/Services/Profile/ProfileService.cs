@@ -4,6 +4,8 @@ using ProfileBook.Services.Repository;
 using ProfileBook.Views;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -47,9 +49,10 @@ namespace ProfileBook.Services.Profile
         {
             _repositoryC.DeleteItemAsync(oldContact);
         }
-        public  Task<List<Contact>> GetListOfContacts(int userId)
+        public async Task<List<Contact>> GetListOfContacts(int userId)
         {
-            return _repositoryC.GetContactsByIdAsync(userId);
+            var items = await _repositoryC.GetItemsAsync<Contact>();
+            return items.Where(x => x.UserId == userId).ToList();
         }
     }
 }

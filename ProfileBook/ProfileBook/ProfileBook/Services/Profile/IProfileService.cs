@@ -11,7 +11,7 @@ namespace ProfileBook.Services.Profile
     public interface IProfileService
     {
         void AddOrEditContact(string newName, string newNick, string mewDescription, string newImage, int userId, Contact oldContact);
-        void RemoveContact(Contact oldContact);
+        Task<List<Contact>> RemoveContactAsync(Contact oldContact, int userId);
         Task<List<Contact>> GetListOfContacts(int userId);
     }
 }

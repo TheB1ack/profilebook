@@ -65,19 +65,18 @@ namespace ProfileBook.ViewModels
                 .SetOkText("Delete"));
             if (result)
             {
-                _profileService.RemoveContact(contact);
-                TryFillTheList();
+                int userId = CrossSettings.Current.GetValueOrDefault("UserId", -1);
+                ListItems = await _profileService.RemoveContactAsync(contact, userId);
+                CheckListIsEmpty();
             }
         }
         private async void GoToSettings()
         {
             await NavigationService.NavigateAsync("SettingsPage");
         }
-        private async void TryFillTheList()
+        private void CheckListIsEmpty()
         {
-            int userId = CrossSettings.Current.GetValueOrDefault("UserId", -1);
-            ListItems = await _profileService.GetListOfContacts(userId);
-            if(ListItems.Count == 0)
+            if (ListItems.Count == 0)
             {
                 IsVisibleText = true;
             }
@@ -85,6 +84,12 @@ namespace ProfileBook.ViewModels
             {
                 IsVisibleText = false;
             }
+        }
+        private async void TryFillTheList()
+        {
+            int userId = CrossSettings.Current.GetValueOrDefault("UserId", -1);
+            ListItems = await _profileService.GetListOfContacts(userId);
+            CheckListIsEmpty();
         }
         public override void OnNavigatedTo(INavigationParameters parameters)
         {  

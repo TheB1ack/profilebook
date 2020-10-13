@@ -45,9 +45,10 @@ namespace ProfileBook.Services.Profile
                 _repositoryC.SaveItemAsync(contact);
             }
         }
-        public void RemoveContact(Contact oldContact)
+        public async Task<List<Contact>> RemoveContactAsync(Contact oldContact, int userId)
         {
-            _repositoryC.DeleteItemAsync(oldContact);
+            await _repositoryC.DeleteItemAsync(oldContact);
+            return await GetListOfContacts(userId);
         }
         public async Task<List<Contact>> GetListOfContacts(int userId)
         {

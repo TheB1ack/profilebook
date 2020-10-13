@@ -33,7 +33,6 @@ namespace ProfileBook.ViewModels
                 SetProperty(ref _isVisibleText, value);
             }
         }
-
         public ICommand EditTap => new Command(GoToAddEditPage);
         public ICommand DeleteTap => new Command(TryToDeleteContact);
         public ICommand LogOutClick => new Command(LogOut);

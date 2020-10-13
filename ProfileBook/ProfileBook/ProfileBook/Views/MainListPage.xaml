@@ -16,7 +16,10 @@
                  IconImageSource="ic_settings.png"
                  Order="Primary"/>
     </ContentPage.ToolbarItems>
-    <StackLayout>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <Label Text="No profiles added"
                HorizontalOptions="Center"
                Margin="0,300,0,0"
@@ -25,7 +28,7 @@
         <ListView HasUnevenRows="True"
                   ItemsSource="{Binding ListItems}"
                   SeparatorVisibility="None"
-                  SelectionMode="None">
+                  SelectionMode="Single">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -60,13 +63,19 @@
             </ListView.ItemTemplate>
         </ListView>
         <ImageButton
-            AbsoluteLayout.LayoutBounds="0.95,0.95,80,80"
-            AbsoluteLayout.LayoutFlags="PositionProportional"
+            BorderColor="#2b3c3c" 
+            BorderWidth="1" 
+            Grid.Row="0"
+            HorizontalOptions="End"
+            WidthRequest="70" 
+            HeightRequest="70"
+            Margin="0,0,20,22" 
+            VerticalOptions="End"
             BackgroundColor="Blue"
             Command="{Binding AddEditButtonClicked}"
             CornerRadius="40"
             Padding="19"
             Source="ic_add.png"/>
-    </StackLayout>
+    </Grid>
   
 </ContentPage>

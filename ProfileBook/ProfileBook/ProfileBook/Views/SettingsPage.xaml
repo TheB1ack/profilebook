@@ -6,7 +6,40 @@
              x:Class="ProfileBook.Views.SettingsPage"
              Title="{Binding Title}">
     <StackLayout>
-
-
+        <Label Text="Sort by"
+               FontSize="25"
+               HorizontalOptions="Center"
+               Margin="0,80,0,10"
+               FontAttributes="Bold"></Label>
+        <RadioButton Text="Name"
+                     GroupName="Sort" 
+                     Margin="155,0,0,0"
+                     FontSize="17"
+                     Command="{Binding RadioButtonChange}" 
+                     IsChecked="{Binding IsCheckedName}"></RadioButton>
+        <RadioButton Text="NickName"
+                     GroupName="Sort" 
+                     Margin="155,0,0,0"
+                     FontSize="17"
+                     Command="{Binding RadioButtonChange}"
+                     IsChecked="{Binding IsCheckedNick}"></RadioButton>
+        <RadioButton Text="Date"
+                     GroupName="Sort" 
+                     Margin="155,0,0,0"
+                     FontSize="17"
+                     Command="{Binding RadioButtonChange}"
+                     IsChecked="{Binding IsCheckedDate}"></RadioButton>
+        <Button Command ="{Binding SaveBClick}" 
+                Text = "SAVE" 
+                WidthRequest="150"
+                Margin="0, 50, 0, 0"
+                HorizontalOptions="Center"
+                HeightRequest="50" 
+                BackgroundColor= "#2196f3"
+                FontSize="20"
+                BorderWidth="1" 
+                CornerRadius="25"
+                TextColor="White"
+                BorderColor="Black"/>
     </StackLayout>
 </ContentPage>

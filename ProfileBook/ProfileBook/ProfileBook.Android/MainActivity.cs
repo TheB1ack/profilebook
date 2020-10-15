@@ -14,26 +14,18 @@ namespace ProfileBook.Droid
               ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
-        //readonly string[] permissionGroup =
-        //{
-        //    Manifest.Permission.ReadExternalStorage,
-        //    Manifest.Permission.WriteExternalStorage,
-        //    Manifest.Permission.Camera
-        //};
         protected override void OnCreate(Bundle savedInstanceState)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
+            Xamarin.Forms.Forms.SetFlags("RadioButton_Experimental");
 
-            //await CrossMedia.Current.Initialize();
-
-            base.OnCreate(savedInstanceState);
+            base.OnCreate(savedInstanceState);          
 
             UserDialogs.Init(this);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App(new AndroidInitializer()));
-            //RequestPermissions(permissionGroup, 0);
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)

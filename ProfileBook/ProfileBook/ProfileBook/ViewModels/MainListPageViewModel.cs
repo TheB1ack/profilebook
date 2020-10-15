@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Plugin.Settings;
 using Prism.Navigation;
+using ProfileBook.Enums;
 using ProfileBook.Models;
 using ProfileBook.Services.Authentication;
 using ProfileBook.Services.Profile;
@@ -66,7 +67,7 @@ namespace ProfileBook.ViewModels
             if (result)
             {
                 int userId = CrossSettings.Current.GetValueOrDefault("UserId", -1);
-                ListItems = await _profileService.RemoveContactAsync(contact, userId);
+                ListItems = await _profileService.RemoveContactAsync(contact, userId, (SortEnum)CrossSettings.Current.GetValueOrDefault("Sort", 0));
                 CheckListIsEmpty();
             }
         }
@@ -88,7 +89,7 @@ namespace ProfileBook.ViewModels
         private async void TryFillTheList()
         {
             int userId = CrossSettings.Current.GetValueOrDefault("UserId", -1);
-            ListItems = await _profileService.GetListOfContacts(userId);
+            ListItems = await _profileService.GetListOfContacts(userId, (SortEnum)CrossSettings.Current.GetValueOrDefault("Sort", 0));           
             CheckListIsEmpty();
         }
         public override void OnNavigatedTo(INavigationParameters parameters)

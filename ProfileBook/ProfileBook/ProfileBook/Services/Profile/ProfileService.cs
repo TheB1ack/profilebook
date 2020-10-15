@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using ProfileBook.Enums;
+using System.Runtime.InteropServices;
 
 namespace ProfileBook.Services.Profile
 {
@@ -45,15 +47,42 @@ namespace ProfileBook.Services.Profile
                 _repositoryC.SaveItemAsync(contact);
             }
         }
-        public async Task<List<Contact>> RemoveContactAsync(Contact oldContact, int userId)
+        public async Task<List<Contact>> RemoveContactAsync(Contact oldContact, int userId, SortEnum parameter)
         {
             await _repositoryC.DeleteItemAsync(oldContact);
-            return await GetListOfContacts(userId);
+            return await GetListOfContacts(userId, parameter);
         }
-        public async Task<List<Contact>> GetListOfContacts(int userId)
+        public async Task<List<Contact>> GetListOfContacts(int userId, SortEnum parameter)
         {
             var items = await _repositoryC.GetItemsAsync<Contact>();
-            return items.Where(x => x.UserId == userId).ToList();
+            var list =  items.Where(x => x.UserId == userId).ToList();
+            return SortListWithParameter(list, parameter);
+        }
+        public List<Contact> SortListWithParameter(List<Contact> oldList, SortEnum parameter)
+        {
+            List<Contact> list = null;
+            if(oldList != null || oldList.Count() > 1)
+            {
+                switch ((int)parameter)
+                {
+                    case 0:
+                        {
+                            list = oldList.OrderBy(x => x.FullName).ToList();
+                            break;
+                        }
+                    case 1:
+                        {
+                            list = oldList.OrderBy(x => x.NickName).ToList();
+                            break;
+                        }
+                    case 2:
+                        {
+                            list = oldList.OrderBy(x => x.AddTime).ToList();
+                            break;
+                        }
+                }
+            }
+            return list;
         }
     }
 }

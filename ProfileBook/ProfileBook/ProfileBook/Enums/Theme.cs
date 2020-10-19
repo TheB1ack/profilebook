@@ -4,10 +4,9 @@ using System.Text;
 
 namespace ProfileBook.Enums
 {
-    public enum SortEnum
+    public enum ThemeEnum
     {
-        ByName,
-        ByNick,
-        ByDate
+        Default,
+        Dark
     }
 }

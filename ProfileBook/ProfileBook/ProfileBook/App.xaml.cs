@@ -13,6 +13,8 @@ using Xamarin.Forms.Internals;
 using Plugin.Settings.Abstractions;
 using Plugin.Settings;
 using Acr.UserDialogs;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Services;
 
 namespace ProfileBook
 {
@@ -26,6 +28,14 @@ namespace ProfileBook
         protected override async void OnInitialized()
         {
             InitializeComponent();
+            //if(CrossSettings.Current.GetValueOrDefault("Theme", 0) == 1)
+            //{
+            //    Current.Resources = new Dark();
+            //}
+            //else
+            //{
+            //    Current.Resources = new Default();
+            //}
             if (CrossSettings.Current.GetValueOrDefault("UserId", -1) != -1)
             {
                 await NavigationService.NavigateAsync("NavigationPage/MainListPage");                                              
@@ -44,14 +54,17 @@ namespace ProfileBook
             containerRegistry.RegisterForNavigation<MainListPage, MainListPageViewModel>();
             containerRegistry.RegisterForNavigation<SettingsPage, SettingsPageViewModel>();
             containerRegistry.RegisterForNavigation<AddEditProfilePage, AddEditProfilePageViewModel>();
+            containerRegistry.RegisterForNavigation<ImagePopupPage, ImagePopupPageViewModel>();
 
             containerRegistry.RegisterInstance<ISettings>(CrossSettings.Current);
             containerRegistry.RegisterInstance<IUserDialogs>(UserDialogs.Instance);
+            containerRegistry.RegisterInstance<IPopupNavigation>(PopupNavigation.Instance);
 
             containerRegistry.RegisterInstance<IRepository<User>>(Container.Resolve<Repository<User>>());
             containerRegistry.RegisterInstance<IRepository<Contact>>(Container.Resolve<Repository<Contact>>());
             containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
             containerRegistry.RegisterInstance<IProfileService>(Container.Resolve<ProfileService>());
+            
         }
     }
 }

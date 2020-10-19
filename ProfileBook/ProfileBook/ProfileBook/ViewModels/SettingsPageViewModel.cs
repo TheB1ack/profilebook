@@ -11,12 +11,14 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using ProfileBook.Enums;
 using Plugin.Settings;
+using Prism.Events;
 
 namespace ProfileBook.ViewModels
 {
     public class SettingsPageViewModel : ViewModelBase
     {
-        private SortEnum sortType;
+        private SortEnum selectedSort;
+        private ThemeEnum selectedTheme;
 
         private bool _isCheckedName;
         public bool IsCheckedName
@@ -45,7 +47,33 @@ namespace ProfileBook.ViewModels
                 SetProperty(ref _isCheckedDate, value);
             }
         }
-        public ICommand RadioButtonChange => new Command(OnRadioButtonChange);
+        private bool _isCheckedDark;
+        public bool IsCheckedDark
+        {
+            get { return _isCheckedDark; }
+            set
+            {
+                SetProperty(ref _isCheckedDark, value);
+                if(_isCheckedDark)
+                {
+                    selectedTheme = ThemeEnum.Dark;
+                }
+                else
+                {
+                    selectedTheme = ThemeEnum.Default;
+                }
+            }
+        }
+        private string _pickerItem;
+        public string PickerItem
+        {
+            get { return _pickerItem; }
+            set
+            {
+                SetProperty(ref _pickerItem, value);
+            }
+        }
+        public ICommand RadioButtonChanged => new Command(OnRadioButtonChange);
         public ICommand SaveBClick => new Command(SaveSettings);
         public SettingsPageViewModel(INavigationService navigationService) : base(navigationService)
         {
@@ -53,28 +81,28 @@ namespace ProfileBook.ViewModels
         }
         private async void SaveSettings()
         {
-            CrossSettings.Current.AddOrUpdateValue("Sort", (int)sortType);
+            CrossSettings.Current.AddOrUpdateValue("Sort", (int)selectedSort);
+            CrossSettings.Current.AddOrUpdateValue("Theme", (int)selectedTheme);
             await NavigationService.GoBackAsync();
         }
-
         private void OnRadioButtonChange()
         {
             if (_isCheckedName)
             {
-                sortType = SortEnum.ByName;
+                selectedSort = SortEnum.ByName;
             }
             else if (_isCheckedNick)
             {
-                sortType = SortEnum.ByNick;
+                selectedSort = SortEnum.ByNick;
             }
             else if (_isCheckedDate)
             {
-                sortType = SortEnum.ByDate;
+                selectedSort = SortEnum.ByDate;
             }
         }
         private void ChangeRadioButton()
         {
-            switch ((int)sortType)
+            switch ((int)selectedSort)
             {
                 case 0:
                     {
@@ -92,13 +120,32 @@ namespace ProfileBook.ViewModels
                         break;
                     }
                 default: break;
+            }              
+        }
+        private void ChangeCheckBox()
+        {
+            switch ((int)selectedTheme)
+            {
+                case 0:
+                    {
+                        IsCheckedDark = false;
+                        break;
+                    }
+                case 1:
+                    {
+                        IsCheckedDark = true;
+                        break;
+                    }
+                default: break;
             }
-                
         }
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            sortType = (SortEnum)CrossSettings.Current.GetValueOrDefault("Sort", 0);
+            selectedSort = (SortEnum)CrossSettings.Current.GetValueOrDefault("Sort", 0);
             ChangeRadioButton();
+            selectedTheme = (ThemeEnum)CrossSettings.Current.GetValueOrDefault("Theme", 0);
+            ChangeCheckBox();
+
         }
     }
 }

@@ -9,30 +9,56 @@
         <Label Text="Sort by"
                FontSize="25"
                HorizontalOptions="Center"
-               Margin="0,80,0,10"
+               Margin="0,60,0,10"
                FontAttributes="Bold"></Label>
         <RadioButton Text="Name"
                      GroupName="Sort" 
                      Margin="155,0,0,0"
                      FontSize="17"
-                     Command="{Binding RadioButtonChange}" 
+                     Command="{Binding RadioButtonChanged}" 
                      IsChecked="{Binding IsCheckedName}"></RadioButton>
         <RadioButton Text="NickName"
                      GroupName="Sort" 
                      Margin="155,0,0,0"
                      FontSize="17"
-                     Command="{Binding RadioButtonChange}"
+                     Command="{Binding RadioButtonChanged}"
                      IsChecked="{Binding IsCheckedNick}"></RadioButton>
         <RadioButton Text="Date"
                      GroupName="Sort" 
                      Margin="155,0,0,0"
                      FontSize="17"
-                     Command="{Binding RadioButtonChange}"
+                     Command="{Binding RadioButtonChanged}"
                      IsChecked="{Binding IsCheckedDate}"></RadioButton>
+        <Label Text="Theme"
+               FontSize="25"
+               HorizontalOptions="Center"
+               Margin="0,50,0,10"
+               FontAttributes="Bold"></Label>
+        <StackLayout Orientation="Horizontal">
+        <CheckBox IsChecked="{Binding IsCheckedDark}"
+                  Margin="155,0,0,0"></CheckBox>
+            <Label Text="Dark"
+                   TextColor="Black"
+                   FontSize="17"
+                   Margin="-6,3,0,0"></Label>
+        </StackLayout>
+        <Label Text="Localization"
+               FontSize="25"
+               HorizontalOptions="Center"
+               Margin="0,50,0,0"
+               FontAttributes="Bold"></Label>
+        <Picker SelectedItem="{Binding PickerItem}">
+            <Picker.Items>
+                <x:String>English</x:String>
+                <x:String>Русский</x:String>
+                <x:String>Українська</x:String>
+            </Picker.Items>
+        </Picker>
+
         <Button Command ="{Binding SaveBClick}" 
                 Text = "SAVE" 
                 WidthRequest="150"
-                Margin="0, 50, 0, 0"
+                Margin="0, 30, 0, 0"
                 HorizontalOptions="Center"
                 HeightRequest="50" 
                 BackgroundColor= "#2196f3"

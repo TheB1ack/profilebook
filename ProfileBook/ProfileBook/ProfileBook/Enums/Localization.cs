@@ -4,10 +4,10 @@ using System.Text;
 
 namespace ProfileBook.Enums
 {
-    public enum SortEnum
+    public enum LocalizationEnum
     {
-        ByName,
-        ByNick,
-        ByDate
+        English,
+        Russin,
+        Ukrainian
     }
 }

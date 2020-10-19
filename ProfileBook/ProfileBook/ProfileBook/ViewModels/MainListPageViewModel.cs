@@ -1,10 +1,15 @@
 ﻿using Acr.UserDialogs;
 using Plugin.Settings;
+using Prism.Commands;
 using Prism.Navigation;
 using ProfileBook.Enums;
 using ProfileBook.Models;
 using ProfileBook.Services.Authentication;
 using ProfileBook.Services.Profile;
+using ProfileBook.Views;
+using Rg.Plugins.Popup.Contracts;
+using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Services;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -15,6 +20,7 @@ namespace ProfileBook.ViewModels
     {
         IAuthorizationService _authorizationService;
         IProfileService _profileService;
+        IPopupNavigation _popupNavigation;
 
         private List<Contact> _listItems;
         public List<Contact> ListItems
@@ -34,16 +40,49 @@ namespace ProfileBook.ViewModels
                 SetProperty(ref _isVisibleText, value);
             }
         }
+        private Contact _itemSelected;
+        public Contact ItemSelected
+        {
+            get
+            {
+                return _itemSelected;
+            }
+            set
+            {
+                _itemSelected = value;
+                EnlargeImage();                       //как-то криво
+            }
+        }
         public ICommand EditTap => new Command(GoToAddEditPage);
         public ICommand DeleteTap => new Command(TryToDeleteContact);
         public ICommand LogOutClick => new Command(LogOut);
         public ICommand SettingsClick => new Command(GoToSettings);
         public ICommand AddEditButtonClicked => new Command(GoToAddEditPage);
-        public MainListPageViewModel(INavigationService navigationService, IAuthorizationService authorizationService, IProfileService profileService) : base(navigationService)
+        public MainListPageViewModel(INavigationService navigationService, IAuthorizationService authorizationService, IProfileService profileService, IPopupNavigation popupNavigation) : base(navigationService)
         {
             Title = "Main List";
             _authorizationService = authorizationService;
             _profileService = profileService;
+            _popupNavigation = popupNavigation;
+        }
+        private async void EnlargeImage()
+        {
+            var page = (PopupPage)new ImagePopupPage();
+            var tapGestureRecognizer = new TapGestureRecognizer();
+            tapGestureRecognizer.Tapped += (s, e) => {
+                _popupNavigation.PopAsync(true);
+            };
+            var image = new Image() { Source = $"{ItemSelected.ImageSource}" };
+            image.GestureRecognizers.Add(tapGestureRecognizer);
+            page.Content = new StackLayout()
+            {
+                Children = { image },
+                Padding = 10,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center
+            };
+            
+            await _popupNavigation.PushAsync(page, true);
         }
         private async void GoToAddEditPage(object item = null)
         {
@@ -67,7 +106,7 @@ namespace ProfileBook.ViewModels
             if (result)
             {
                 int userId = CrossSettings.Current.GetValueOrDefault("UserId", -1);
-                ListItems = await _profileService.RemoveContactAsync(contact, userId, (SortEnum)CrossSettings.Current.GetValueOrDefault("Sort", 0));
+                ListItems = await _profileService.RemoveContactAsync(contact, userId, (SortEnum)CrossSettings.Current.GetValueOrDefault("Sort", 0)); //как-то криво
                 CheckListIsEmpty();
             }
         }

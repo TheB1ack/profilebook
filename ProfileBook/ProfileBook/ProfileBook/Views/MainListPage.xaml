@@ -28,11 +28,12 @@
         <ListView HasUnevenRows="True"
                   ItemsSource="{Binding ListItems}"
                   SeparatorVisibility="None"
-                  SelectionMode="Single">
+                  SelectionMode="Single"
+                  SelectedItem="{Binding ItemSelected, Mode=TwoWay}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <ViewCell.ContextActions>
+                        <ViewCell.ContextActions >
                             <MenuItem Text="Edit"
                                       Command="{Binding BindingContext.EditTap, Source={x:Reference _this}}"
                                       CommandParameter="{Binding .}"/>

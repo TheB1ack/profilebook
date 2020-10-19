@@ -20,8 +20,9 @@ namespace ProfileBook.Droid
             ToolbarResource = Resource.Layout.Toolbar;
             Xamarin.Forms.Forms.SetFlags("RadioButton_Experimental");
 
-            base.OnCreate(savedInstanceState);          
+            base.OnCreate(savedInstanceState);
 
+            Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
             UserDialogs.Init(this);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);

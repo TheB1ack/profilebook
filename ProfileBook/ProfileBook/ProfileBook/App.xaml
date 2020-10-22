@@ -5,7 +5,5 @@
              x:Class="ProfileBook.App">
   <Application.Resources>
 
-    <!-- Application resource dictionary -->
-
   </Application.Resources>
 </prism:PrismApplication>

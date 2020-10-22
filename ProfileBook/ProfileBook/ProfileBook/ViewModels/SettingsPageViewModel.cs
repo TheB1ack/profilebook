@@ -1,17 +1,9 @@
-﻿using Acr.UserDialogs;
-using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Navigation;
-using ProfileBook.Services.Profile;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
+﻿using Prism.Navigation;
 using System.Windows.Input;
 using Xamarin.Forms;
 using ProfileBook.Enums;
 using Plugin.Settings;
-using Prism.Events;
+using System.Globalization;
 
 namespace ProfileBook.ViewModels
 {
@@ -19,6 +11,7 @@ namespace ProfileBook.ViewModels
     {
         private SortEnum selectedSort;
         private ThemeEnum selectedTheme;
+        private LocalizationEnum selectedLocalization;
 
         private bool _isCheckedName;
         public bool IsCheckedName
@@ -54,14 +47,7 @@ namespace ProfileBook.ViewModels
             set
             {
                 SetProperty(ref _isCheckedDark, value);
-                if(_isCheckedDark)
-                {
-                    selectedTheme = ThemeEnum.Dark;
-                }
-                else
-                {
-                    selectedTheme = ThemeEnum.Default;
-                }
+                OnCheckboxChange();
             }
         }
         private string _pickerItem;
@@ -71,19 +57,22 @@ namespace ProfileBook.ViewModels
             set
             {
                 SetProperty(ref _pickerItem, value);
+                OnPickerChange();
             }
         }
         public ICommand RadioButtonChanged => new Command(OnRadioButtonChange);
         public ICommand SaveBClick => new Command(SaveSettings);
         public SettingsPageViewModel(INavigationService navigationService) : base(navigationService)
         {
-            Title = "Settings";
+
         }
         private async void SaveSettings()
         {
             CrossSettings.Current.AddOrUpdateValue("Sort", (int)selectedSort);
             CrossSettings.Current.AddOrUpdateValue("Theme", (int)selectedTheme);
-            await NavigationService.GoBackAsync();
+            CrossSettings.Current.AddOrUpdateValue("Localization", (int)selectedLocalization);
+            ChangeLocalization((int)selectedLocalization);
+            await NavigationService.NavigateAsync("../MainListPage");
         }
         private void OnRadioButtonChange()
         {
@@ -98,6 +87,39 @@ namespace ProfileBook.ViewModels
             else if (_isCheckedDate)
             {
                 selectedSort = SortEnum.ByDate;
+            }
+        }
+        private void OnPickerChange()
+        {
+            switch (PickerItem)
+            {
+                case "English":
+                    {
+                        CultureInfo.CurrentUICulture = new CultureInfo("en", false);
+                        selectedLocalization = LocalizationEnum.English;
+                        break;
+                    }
+                case "Русский":
+                    {
+                        CultureInfo.CurrentUICulture = new CultureInfo("ru", false);
+                        selectedLocalization = LocalizationEnum.Russin;
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
+        private void OnCheckboxChange()
+        {
+            if (IsCheckedDark)
+            {
+                selectedTheme = ThemeEnum.Dark;
+            }
+            else
+            {
+                selectedTheme = ThemeEnum.Default;
             }
         }
         private void ChangeRadioButton()
@@ -119,7 +141,10 @@ namespace ProfileBook.ViewModels
                         IsCheckedDate = true;
                         break;
                     }
-                default: break;
+                default: 
+                    {
+                        break; 
+                    }
             }              
         }
         private void ChangeCheckBox()
@@ -136,16 +161,62 @@ namespace ProfileBook.ViewModels
                         IsCheckedDark = true;
                         break;
                     }
-                default: break;
+                default:
+                    {
+                        break;
+                    }
             }
         }
+        private void ChangePicker()
+        {
+            switch ((int)selectedLocalization)
+            {
+                case 0:
+                    {
+                        PickerItem = "English";
+                        break;
+                    }
+                case 1:
+                    {
+                        PickerItem = "Русский";
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
+        private void ChangeLocalization(int localization)
+        {
+            switch (localization)
+            {
+                case 0:
+                    {
+                        CultureInfo.CurrentUICulture = new CultureInfo("en", false);
+                        break;
+                    }
+                case 1:
+                    {
+                        CultureInfo.CurrentUICulture = new CultureInfo("ru", false);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
+
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             selectedSort = (SortEnum)CrossSettings.Current.GetValueOrDefault("Sort", 0);
             ChangeRadioButton();
             selectedTheme = (ThemeEnum)CrossSettings.Current.GetValueOrDefault("Theme", 0);
             ChangeCheckBox();
-
+            selectedLocalization = (LocalizationEnum)CrossSettings.Current.GetValueOrDefault("Localization", 0);
+            ChangePicker();
+            ChangeLocalization((int)selectedLocalization);
         }
     }
 }

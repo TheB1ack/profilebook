@@ -1,8 +1,8 @@
 ﻿using Acr.UserDialogs;
-using Prism.Commands;
-using Prism.Mvvm;
+using Plugin.Settings;
 using Prism.Navigation;
 using ProfileBook.Services.Authentication;
+using System.Globalization;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -56,7 +56,6 @@ namespace ProfileBook.ViewModels
         public SingUpPageViewModel(INavigationService navigationService, IAuthorizationService authorizationService) : base(navigationService)
         {
 
-            Title = "User SingUp";
             IsButtonEnable = false;
             _authorizationService = authorizationService;
         }
@@ -93,25 +92,54 @@ namespace ProfileBook.ViewModels
         {
             if (LoginField.Length <= 4 || LoginField.Length >= 16)
             {
-                UserDialogs.Instance.Alert("Login must be at least 4 and no more than 16!", "", "OK");
+                string text = Resources.Resource.SingUpPage_AlertLoginLength;
+                UserDialogs.Instance.Alert(text, "", "OK");
                 return false;
             }
             if (System.Text.RegularExpressions.Regex.IsMatch(LoginField[0].ToString(), @"^[0-9]+"))
             {
-                UserDialogs.Instance.Alert("Login musn't start with numbers!", "", "OK");
+                string text = Resources.Resource.SingUpPage_AlertLoginNumbers;
+                UserDialogs.Instance.Alert(text, "", "OK");
                 return false;
             }
             if (!System.Text.RegularExpressions.Regex.IsMatch(PasswordField, @"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])") || PasswordField.Length <= 8 || PasswordField.Length >= 16)
             {
-                UserDialogs.Instance.Alert("Password must be at least 8 and no more than 16 and must contain at least one uppercase letter, one lowercase letter and one number!", "", "OK");
+                string text = Resources.Resource.SingUpPage_AlertPasswordValid;
+                UserDialogs.Instance.Alert(text, "", "OK");
                 return false;
             }
             if (PasswordField != SPasswordField)
             {
-                UserDialogs.Instance.Alert("Passwords must match!", "", "OK");
+                string text = Resources.Resource.SingUpPage_AlertPasswordMatch;
+                UserDialogs.Instance.Alert(text, "", "OK");
                 return false;
             }
             return true;
+        }
+        private void ChangeLocalization(int localization)
+        {
+            switch (localization)
+            {
+                case 0:
+                    {
+                        CultureInfo.CurrentUICulture = new CultureInfo("en", false);
+                        break;
+                    }
+                case 1:
+                    {
+                        CultureInfo.CurrentUICulture = new CultureInfo("ru", false);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            int localization = CrossSettings.Current.GetValueOrDefault("Localization", 0);
+            ChangeLocalization(localization);
         }
     }
 }

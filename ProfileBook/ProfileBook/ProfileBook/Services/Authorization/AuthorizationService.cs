@@ -21,7 +21,8 @@ namespace ProfileBook.Services.Authentication
             User userResult = items.Where(x => x.UserLogin == userLogin).FirstOrDefault();
             if (userResult != null)
             {
-                UserDialogs.Instance.Alert("This login is already taken!","", "OK");
+                string text = Resources.Resource.SingUpPage_AlertLoginMatch;
+                UserDialogs.Instance.Alert(text, "", "OK");
                 return false;
             }
             else

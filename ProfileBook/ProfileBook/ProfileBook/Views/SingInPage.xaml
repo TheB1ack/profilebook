@@ -3,19 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              x:Class="ProfileBook.Views.SingInPage"
-             Title="{Binding Title}">
+             xmlns:resources="clr-namespace:ProfileBook.Resources"
+             Title="{x:Static resources:Resource.SingInPage_Title}">
     <ContentPage.Content>
         <StackLayout>
             <Entry Text="{Binding LoginField}" 
-                   Placeholder = "Login"  
+                   Placeholder = "{x:Static resources:Resource.SingInPage_LoginPlaceholder}"  
                    Margin="50, 240, 50, 0" />
             <Entry Text="{Binding PasswordField}"
-                   Placeholder = "Password" 
+                   Placeholder = "{x:Static resources:Resource.SingInPage_PasswordPlaceholder}" 
                    IsPassword ="True" 
                    Margin="50, 0, 50, 0"/>
             <Button Command ="{Binding SingInBClick}" 
                     IsEnabled="{Binding IsButtonEnable}" 
-                    Text = "SIGN IN" 
+                    Text = "{x:Static resources:Resource.SingInPage_Button}" 
                     Margin="50, 160, 50, 0" 
                     HeightRequest="60" 
                     BackgroundColor="#D2691E" 
@@ -25,7 +26,7 @@
             <Label HorizontalOptions="Center">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="Sing up" 
+                        <Span Text="{x:Static resources:Resource.SingInPage_Label}" 
                               TextColor="Blue" 
                               TextDecorations="Underline" 
                               FontSize="20">

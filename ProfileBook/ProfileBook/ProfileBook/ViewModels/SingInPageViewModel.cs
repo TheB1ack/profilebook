@@ -1,13 +1,8 @@
 ﻿using Acr.UserDialogs;
-using Prism.Commands;
-using Prism.Mvvm;
+using Plugin.Settings;
 using Prism.Navigation;
-using Prism.Services;
-using ProfileBook.Models;
 using ProfileBook.Services.Authentication;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -52,7 +47,6 @@ namespace ProfileBook.ViewModels
 
         public SingInPageViewModel(INavigationService navigationService,IAuthorizationService authorizationService) : base(navigationService)
         {
-            Title = "User SingIn";
             IsButtonEnable = false;
             _authorizationService = authorizationService;
         }
@@ -65,7 +59,8 @@ namespace ProfileBook.ViewModels
             }
             else
             {
-                await UserDialogs.Instance.AlertAsync("Invalid login or password!", "", "OK");
+                string text = Resources.Resource.SingInPage_Alert;
+                await UserDialogs.Instance.AlertAsync(text, "", "OK");
                 PasswordField = "";
             }            
         }
@@ -82,10 +77,32 @@ namespace ProfileBook.ViewModels
         {
             await NavigationService.NavigateAsync("SingUpPage");
         }
+        private void ChangeLocalization(int localization)
+        {
+            switch (localization)
+            {
+                case 0:
+                    {
+                        CultureInfo.CurrentUICulture = new CultureInfo("en", false);
+                        break;
+                    }
+                case 1:
+                    {
+                        CultureInfo.CurrentUICulture = new CultureInfo("ru", false);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             LoginField = (string)parameters["login"];
             PasswordField = "";
+            int localization = CrossSettings.Current.GetValueOrDefault("Localization", 0);
+            ChangeLocalization(localization);
         }
     }
 }

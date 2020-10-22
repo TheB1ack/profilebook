@@ -5,7 +5,8 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ProfileBook.Views.MainListPage"
              x:Name="_this"
-             Title="{Binding Title}">
+             xmlns:resources="clr-namespace:ProfileBook.Resources"
+             Title="{x:Static resources:Resource.MainListPage_Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem       
                  Command="{Binding LogOutClick}"
@@ -20,7 +21,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label Text="No profiles added"
+        <Label Text="{x:Static resources:Resource.MainListPage_Label}"
                HorizontalOptions="Center"
                Margin="0,300,0,0"
                FontAttributes="Bold"
@@ -34,10 +35,10 @@
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.ContextActions >
-                            <MenuItem Text="Edit"
+                            <MenuItem Text="{x:Static resources:Resource.MainListPage_ContextmenuEdit}"
                                       Command="{Binding BindingContext.EditTap, Source={x:Reference _this}}"
                                       CommandParameter="{Binding .}"/>
-                            <MenuItem Text="Delete"
+                            <MenuItem Text="{x:Static resources:Resource.MainListPage_ContextmenuDelete}"
                                       Command="{Binding BindingContext.DeleteTap, Source={x:Reference _this}}"
                                       CommandParameter="{Binding .}"
                                       IsDestructive="True"/>

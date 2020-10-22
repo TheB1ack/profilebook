@@ -4,7 +4,8 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ProfileBook.Views.AddEditProfilePage"
-             Title="{Binding Title}">
+             xmlns:resources="clr-namespace:ProfileBook.Resources"
+             Title="{x:Static resources:Resource.AddEditProfilePage_Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem       
                  Command="{Binding SaveClick}"
@@ -19,13 +20,13 @@
             </Image.GestureRecognizers>
         </Image>
         <Entry Text="{Binding NickField}" 
-               Placeholder = "NickName"  
+               Placeholder = "{x:Static resources:Resource.AddEditProfilePage_NickPlaceholder}"  
                Margin="50, 20, 50, 0" />
         <Entry Text="{Binding NameField}" 
-               Placeholder = "Name"  
+               Placeholder = "{x:Static resources:Resource.AddEditProfilePage_NamePlaceholder}"  
                Margin="50, 0, 50, 0" />
         <Editor Text="{Binding DescriptionField}" 
-                Placeholder="Description" 
+                Placeholder="{x:Static resources:Resource.AddEditProfilePage_DescriptionPlaceholder}" 
                 Margin="50, 20, 50, 0" 
                 HeightRequest="200" 
                 BackgroundColor="LightGray" 

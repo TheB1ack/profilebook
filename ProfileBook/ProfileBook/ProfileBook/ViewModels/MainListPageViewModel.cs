@@ -1,6 +1,5 @@
 ﻿using Acr.UserDialogs;
 using Plugin.Settings;
-using Prism.Commands;
 using Prism.Navigation;
 using ProfileBook.Enums;
 using ProfileBook.Models;
@@ -9,8 +8,8 @@ using ProfileBook.Services.Profile;
 using ProfileBook.Views;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Pages;
-using Rg.Plugins.Popup.Services;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -50,7 +49,7 @@ namespace ProfileBook.ViewModels
             set
             {
                 _itemSelected = value;
-                EnlargeImage();                       //как-то криво
+                EnlargeImage();                       
             }
         }
         public ICommand EditTap => new Command(GoToAddEditPage);
@@ -60,7 +59,6 @@ namespace ProfileBook.ViewModels
         public ICommand AddEditButtonClicked => new Command(GoToAddEditPage);
         public MainListPageViewModel(INavigationService navigationService, IAuthorizationService authorizationService, IProfileService profileService, IPopupNavigation popupNavigation) : base(navigationService)
         {
-            Title = "Main List";
             _authorizationService = authorizationService;
             _profileService = profileService;
             _popupNavigation = popupNavigation;
@@ -98,11 +96,14 @@ namespace ProfileBook.ViewModels
         }
         private async void TryToDeleteContact(object item)
         {
+            string title = Resources.Resource.MainListPage_AlertTitle;
+            string cancel = Resources.Resource.MainListPage_AlertCancel;
+            string delete = Resources.Resource.MainListPage_AlertOk;
             Contact contact = item as Contact;
             var result = await UserDialogs.Instance.ConfirmAsync(new ConfirmConfig()
-                .SetTitle($"Delete contact {contact.NickName} ?")
-                .SetCancelText("Cancel")
-                .SetOkText("Delete"));
+                .SetTitle(title + " " + contact.NickName +" ?")
+                .SetCancelText(cancel)
+                .SetOkText(delete));
             if (result)
             {
                 int userId = CrossSettings.Current.GetValueOrDefault("UserId", -1);
@@ -112,7 +113,7 @@ namespace ProfileBook.ViewModels
         }
         private async void GoToSettings()
         {
-            await NavigationService.NavigateAsync("SettingsPage");
+            await NavigationService.NavigateAsync("../SettingsPage");
         }
         private void CheckListIsEmpty()
         {
@@ -131,9 +132,31 @@ namespace ProfileBook.ViewModels
             ListItems = await _profileService.GetListOfContacts(userId, (SortEnum)CrossSettings.Current.GetValueOrDefault("Sort", 0));           
             CheckListIsEmpty();
         }
+        private void ChangeLocalization(int localization)
+        {
+            switch (localization)
+            {
+                case 0:
+                    {
+                        CultureInfo.CurrentUICulture = new CultureInfo("en", false);
+                        break;
+                    }
+                case 1:
+                    {
+                        CultureInfo.CurrentUICulture = new CultureInfo("ru", false);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
         public override void OnNavigatedTo(INavigationParameters parameters)
         {  
             TryFillTheList();
+            int localization  = CrossSettings.Current.GetValueOrDefault("Localization", 0);
+            ChangeLocalization(localization);
         }
     }
 }

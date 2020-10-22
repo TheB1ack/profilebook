@@ -7,7 +7,6 @@ namespace ProfileBook.Enums
     public enum LocalizationEnum
     {
         English,
-        Russin,
-        Ukrainian
+        Russin
     }
 }

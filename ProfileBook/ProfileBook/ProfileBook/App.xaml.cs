@@ -15,6 +15,7 @@ using Plugin.Settings;
 using Acr.UserDialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Services;
+using System.Globalization;
 
 namespace ProfileBook
 {
@@ -28,14 +29,8 @@ namespace ProfileBook
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            //if(CrossSettings.Current.GetValueOrDefault("Theme", 0) == 1)
-            //{
-            //    Current.Resources = new Dark();
-            //}
-            //else
-            //{
-            //    Current.Resources = new Default();
-            //}
+
+            SetLocalization();
             if (CrossSettings.Current.GetValueOrDefault("UserId", -1) != -1)
             {
                 await NavigationService.NavigateAsync("NavigationPage/MainListPage");                                              
@@ -65,6 +60,29 @@ namespace ProfileBook
             containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
             containerRegistry.RegisterInstance<IProfileService>(Container.Resolve<ProfileService>());
             
+        }
+        private void SetLocalization()
+        {
+            int selectedLocalization = CrossSettings.Current.GetValueOrDefault("Localization", 0);
+            switch (selectedLocalization)
+            {
+                case 0:
+                    {
+
+                        CultureInfo.CurrentUICulture = new CultureInfo("en", false);
+                        break;
+                    }
+                case 1:
+                    {
+                        CultureInfo.CurrentUICulture = new CultureInfo("ru", false);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+
         }
     }
 }

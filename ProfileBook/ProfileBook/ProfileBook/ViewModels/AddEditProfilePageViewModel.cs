@@ -2,13 +2,11 @@
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using Plugin.Settings;
-using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
-using Prism.Services;
 using ProfileBook.Models;
 using ProfileBook.Services.Profile;
 using System;
+using System.Globalization;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -62,7 +60,6 @@ namespace ProfileBook.ViewModels
         public ICommand TapCommand => new Command(GetNewPhoto);
         public AddEditProfilePageViewModel(INavigationService navigationService, IProfileService profileService) : base(navigationService)
         {
-            Title = "Add Profile";
             _profileService = profileService;
             GalleryAction += TakePhotoFromGallery;
             CameraAction += TakePhotoWithCamera;
@@ -70,10 +67,14 @@ namespace ProfileBook.ViewModels
 
         public void GetNewPhoto()
         {
+            string gallery = Resources.Resource.AddEditProfilePage_ActionSheetGallery;
+            string photo = Resources.Resource.AddEditProfilePage_ActionSheetCamera;
+            string title = Resources.Resource.AddEditProfilePage_ActionSheetTitle;
             UserDialogs.Instance.ActionSheet(new ActionSheetConfig()
-                .SetTitle("Choose photo")
-                .Add("Pick at Gallery", GalleryAction, "ic_collections.png")
-                .Add("Take photo with camera", CameraAction, "ic_camera_alt.png"));
+                .SetTitle(title)
+                .Add(gallery, GalleryAction, "ic_collections.png")
+                .Add(photo, CameraAction, "ic_camera_alt.png"));
+           
         }
         private async void TakePhotoFromGallery()
         {
@@ -117,6 +118,26 @@ namespace ProfileBook.ViewModels
                 await NavigationService.GoBackAsync();
             }
         }
+        private void ChangeLocalization(int localization)
+        {
+            switch (localization)
+            {
+                case 0:
+                    {
+                        CultureInfo.CurrentUICulture = new CultureInfo("en", false);
+                        break;
+                    }
+                case 1:
+                    {
+                        CultureInfo.CurrentUICulture = new CultureInfo("ru", false);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             _contact = (Contact)parameters["contact"];
@@ -131,6 +152,8 @@ namespace ProfileBook.ViewModels
             {
                 ImageSource = "pic_profile.png";
             }
+            int localization = CrossSettings.Current.GetValueOrDefault("Localization", 0);
+            ChangeLocalization(localization);
         }
     }
 }

@@ -4,32 +4,33 @@
              xmlns:prism="http://prismlibrary.com" 
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ProfileBook.Views.SettingsPage"
-             Title="{Binding Title}">
+             xmlns:resources="clr-namespace:ProfileBook.Resources"
+             Title="{x:Static resources:Resource.SettingsPage_Title}">
     <StackLayout>
-        <Label Text="Sort by"
+        <Label Text="{x:Static resources:Resource.SettingsPage_LabelSort}"
                FontSize="25"
                HorizontalOptions="Center"
                Margin="0,60,0,10"
                FontAttributes="Bold"></Label>
-        <RadioButton Text="Name"
+        <RadioButton Text="{x:Static resources:Resource.SettingsPage_RadiobuttonName}"
                      GroupName="Sort" 
                      Margin="155,0,0,0"
                      FontSize="17"
                      Command="{Binding RadioButtonChanged}" 
                      IsChecked="{Binding IsCheckedName}"></RadioButton>
-        <RadioButton Text="NickName"
+        <RadioButton Text="{x:Static resources:Resource.SettingsPage_RadiobuttonNick}"
                      GroupName="Sort" 
                      Margin="155,0,0,0"
                      FontSize="17"
                      Command="{Binding RadioButtonChanged}"
                      IsChecked="{Binding IsCheckedNick}"></RadioButton>
-        <RadioButton Text="Date"
+        <RadioButton Text="{x:Static resources:Resource.SettingsPage_RadiobuttonDate}"
                      GroupName="Sort" 
                      Margin="155,0,0,0"
                      FontSize="17"
                      Command="{Binding RadioButtonChanged}"
                      IsChecked="{Binding IsCheckedDate}"></RadioButton>
-        <Label Text="Theme"
+        <Label Text="{x:Static resources:Resource.SettingsPage_LabelLocalization}"
                FontSize="25"
                HorizontalOptions="Center"
                Margin="0,50,0,10"
@@ -37,12 +38,12 @@
         <StackLayout Orientation="Horizontal">
         <CheckBox IsChecked="{Binding IsCheckedDark}"
                   Margin="155,0,0,0"></CheckBox>
-            <Label Text="Dark"
+            <Label Text="{x:Static resources:Resource.SettingsPage_CheckboxLabelDark}"
                    TextColor="Black"
                    FontSize="17"
                    Margin="-6,3,0,0"></Label>
         </StackLayout>
-        <Label Text="Localization"
+        <Label Text="{x:Static resources:Resource.SettingsPage_LabelLocalization}"
                FontSize="25"
                HorizontalOptions="Center"
                Margin="0,50,0,0"
@@ -51,12 +52,11 @@
             <Picker.Items>
                 <x:String>English</x:String>
                 <x:String>Русский</x:String>
-                <x:String>Українська</x:String>
             </Picker.Items>
         </Picker>
 
         <Button Command ="{Binding SaveBClick}" 
-                Text = "SAVE" 
+                Text = "{x:Static resources:Resource.SettingsPage_Button}" 
                 WidthRequest="150"
                 Margin="0, 30, 0, 0"
                 HorizontalOptions="Center"

@@ -95,14 +95,12 @@ namespace ProfileBook.ViewModels
             {
                 case "English":
                     {
-                        CultureInfo.CurrentUICulture = new CultureInfo("en", false);
                         selectedLocalization = LocalizationEnum.English;
                         break;
                     }
                 case "Русский":
                     {
-                        CultureInfo.CurrentUICulture = new CultureInfo("ru", false);
-                        selectedLocalization = LocalizationEnum.Russin;
+                        selectedLocalization = LocalizationEnum.Russian;
                         break;
                     }
                 default:
@@ -193,7 +191,7 @@ namespace ProfileBook.ViewModels
             {
                 case 0:
                     {
-                        CultureInfo.CurrentUICulture = new CultureInfo("en", false);
+                        CultureInfo.CurrentUICulture = new CultureInfo("en-US", false);
                         break;
                     }
                 case 1:
@@ -216,7 +214,6 @@ namespace ProfileBook.ViewModels
             ChangeCheckBox();
             selectedLocalization = (LocalizationEnum)CrossSettings.Current.GetValueOrDefault("Localization", 0);
             ChangePicker();
-            ChangeLocalization((int)selectedLocalization);
         }
     }
 }

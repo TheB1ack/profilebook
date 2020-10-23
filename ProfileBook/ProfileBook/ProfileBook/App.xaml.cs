@@ -2,14 +2,11 @@ using Prism;
 using Prism.Ioc;
 using ProfileBook.ViewModels;
 using ProfileBook.Views;
-using Xamarin.Essentials.Interfaces;
-using Xamarin.Essentials.Implementation;
 using Xamarin.Forms;
 using ProfileBook.Services.Repository;
 using ProfileBook.Models;
 using ProfileBook.Services.Authentication;
 using ProfileBook.Services.Profile;
-using Xamarin.Forms.Internals;
 using Plugin.Settings.Abstractions;
 using Plugin.Settings;
 using Acr.UserDialogs;
@@ -24,10 +21,12 @@ namespace ProfileBook
         public App(IPlatformInitializer initializer)
             : base(initializer)
         {
+            SetLocalization();
         }
 
         protected override async void OnInitialized()
         {
+            
             InitializeComponent();
 
             SetLocalization();
@@ -68,8 +67,7 @@ namespace ProfileBook
             {
                 case 0:
                     {
-
-                        CultureInfo.CurrentUICulture = new CultureInfo("en", false);
+                        CultureInfo.CurrentUICulture = new CultureInfo("en-US", false);
                         break;
                     }
                 case 1:

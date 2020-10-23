@@ -1,5 +1,4 @@
-﻿using ProfileBook.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ProfileBook.Services.Repository

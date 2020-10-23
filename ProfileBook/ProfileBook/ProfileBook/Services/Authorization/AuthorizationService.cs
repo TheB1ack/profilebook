@@ -2,7 +2,6 @@
 using Plugin.Settings;
 using ProfileBook.Models;
 using ProfileBook.Services.Repository;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 

@@ -88,6 +88,15 @@ namespace ProfileBook.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Fields Name and NickName musn&apos;t be empty!.
+        /// </summary>
+        public static string AddEditProfilePage_Alert {
+            get {
+                return ResourceManager.GetString("AddEditProfilePage_Alert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Description.
         /// </summary>
         public static string AddEditProfilePage_DescriptionPlaceholder {

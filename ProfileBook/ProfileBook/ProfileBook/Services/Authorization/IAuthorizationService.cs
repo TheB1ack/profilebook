@@ -1,6 +1,4 @@
-﻿using ProfileBook.Models;
-using ProfileBook.Services.Repository;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace ProfileBook.Services.Authentication
 {

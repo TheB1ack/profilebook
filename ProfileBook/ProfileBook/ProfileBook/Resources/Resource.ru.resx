@@ -126,6 +126,9 @@
   <data name="AddEditProfilePage_ActionSheetTitle" xml:space="preserve">
     <value>Выбрать фото</value>
   </data>
+  <data name="AddEditProfilePage_Alert" xml:space="preserve">
+    <value>Поля Имя и Ник не должны быть пустыми!</value>
+  </data>
   <data name="AddEditProfilePage_DescriptionPlaceholder" xml:space="preserve">
     <value>Описание</value>
   </data>

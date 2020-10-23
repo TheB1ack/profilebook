@@ -6,7 +6,6 @@ using Prism.Navigation;
 using ProfileBook.Models;
 using ProfileBook.Services.Profile;
 using System;
-using System.Globalization;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -109,33 +108,14 @@ namespace ProfileBook.ViewModels
         {
             if (NameField == null || NickField == null || NameField.Replace(" ", "") == "" || NickField.Replace(" ", "") == "")
             {
-               await UserDialogs.Instance.AlertAsync("Fields Name and NickName musn't be empty!");
+                string text = Resources.Resource.AddEditProfilePage_Alert;
+               await UserDialogs.Instance.AlertAsync(text);
             }
             else
             {
                 int userId = CrossSettings.Current.GetValueOrDefault("UserId", -1);
                 _profileService.AddOrEditContact(NameField ?? "", NickField ?? "", DescriptionField ?? "", ImageSource, userId, _contact);
                 await NavigationService.GoBackAsync();
-            }
-        }
-        private void ChangeLocalization(int localization)
-        {
-            switch (localization)
-            {
-                case 0:
-                    {
-                        CultureInfo.CurrentUICulture = new CultureInfo("en", false);
-                        break;
-                    }
-                case 1:
-                    {
-                        CultureInfo.CurrentUICulture = new CultureInfo("ru", false);
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
             }
         }
         public override void OnNavigatedTo(INavigationParameters parameters)
@@ -152,8 +132,6 @@ namespace ProfileBook.ViewModels
             {
                 ImageSource = "pic_profile.png";
             }
-            int localization = CrossSettings.Current.GetValueOrDefault("Localization", 0);
-            ChangeLocalization(localization);
         }
     }
 }

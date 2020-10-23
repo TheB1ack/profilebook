@@ -126,6 +126,9 @@
   <data name="AddEditProfilePage_ActionSheetTitle" xml:space="preserve">
     <value>Обрати фото</value>
   </data>
+  <data name="AddEditProfilePage_Alert" xml:space="preserve">
+    <value>Fields Name and NickName musn't be empty!</value>
+  </data>
   <data name="AddEditProfilePage_DescriptionPlaceholder" xml:space="preserve">
     <value>Description</value>
   </data>

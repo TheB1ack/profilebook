@@ -2,7 +2,6 @@
 using Plugin.Settings;
 using Prism.Navigation;
 using ProfileBook.Services.Authentication;
-using System.Globalization;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -55,6 +54,7 @@ namespace ProfileBook.ViewModels
             bool isValid = await _authorizationService.SingInAsync(LoginField, PasswordField);
             if (isValid)
             {
+                CrossSettings.Current.AddOrUpdateValue("Sort", 0);
                 await NavigationService.NavigateAsync("../MainListPage");
             }
             else
@@ -77,32 +77,10 @@ namespace ProfileBook.ViewModels
         {
             await NavigationService.NavigateAsync("SingUpPage");
         }
-        private void ChangeLocalization(int localization)
-        {
-            switch (localization)
-            {
-                case 0:
-                    {
-                        CultureInfo.CurrentUICulture = new CultureInfo("en", false);
-                        break;
-                    }
-                case 1:
-                    {
-                        CultureInfo.CurrentUICulture = new CultureInfo("ru", false);
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
-        }
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             LoginField = (string)parameters["login"];
             PasswordField = "";
-            int localization = CrossSettings.Current.GetValueOrDefault("Localization", 0);
-            ChangeLocalization(localization);
         }
     }
 }

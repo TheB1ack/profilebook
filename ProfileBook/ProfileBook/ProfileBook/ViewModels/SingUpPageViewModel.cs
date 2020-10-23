@@ -2,7 +2,6 @@
 using Plugin.Settings;
 using Prism.Navigation;
 using ProfileBook.Services.Authentication;
-using System.Globalization;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -115,31 +114,6 @@ namespace ProfileBook.ViewModels
                 return false;
             }
             return true;
-        }
-        private void ChangeLocalization(int localization)
-        {
-            switch (localization)
-            {
-                case 0:
-                    {
-                        CultureInfo.CurrentUICulture = new CultureInfo("en", false);
-                        break;
-                    }
-                case 1:
-                    {
-                        CultureInfo.CurrentUICulture = new CultureInfo("ru", false);
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
-        }
-        public override void OnNavigatedTo(INavigationParameters parameters)
-        {
-            int localization = CrossSettings.Current.GetValueOrDefault("Localization", 0);
-            ChangeLocalization(localization);
         }
     }
 }

@@ -1,27 +1,19 @@
-﻿using Prism.Navigation;
-using ProfileBook.Models;
+﻿using ProfileBook.Models;
 using ProfileBook.Services.Repository;
-using ProfileBook.Views;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 using ProfileBook.Enums;
-using System.Runtime.InteropServices;
 
 namespace ProfileBook.Services.Profile
 {
     public class ProfileService : IProfileService
     {
         private readonly IRepository<Contact> _repositoryC;
-        private readonly IRepository<User> _repositoryU;
-        public ProfileService(IRepository<Contact> repositoryС, IRepository<User> repositoryU)
+        public ProfileService(IRepository<Contact> repositoryС)
         {
             _repositoryC = repositoryС;
-            _repositoryU = repositoryU;
         }
         public void AddOrEditContact(string newName, string newNick, string newDescription, string newImage, int  userId, Contact oldContact)
         {

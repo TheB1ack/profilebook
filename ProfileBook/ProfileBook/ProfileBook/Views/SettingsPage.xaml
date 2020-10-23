@@ -5,67 +5,60 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ProfileBook.Views.SettingsPage"
              xmlns:resources="clr-namespace:ProfileBook.Resources"
+             BackgroundColor="{DynamicResource PageBackgroundColor}"
              Title="{x:Static resources:Resource.SettingsPage_Title}">
     <StackLayout>
         <Label Text="{x:Static resources:Resource.SettingsPage_LabelSort}"
-               FontSize="25"
+               Style="{StaticResource AverageLabelStyle}"
                HorizontalOptions="Center"
-               Margin="0,60,0,10"
-               FontAttributes="Bold"></Label>
+               Margin="0,60,0,10"/>
         <RadioButton Text="{x:Static resources:Resource.SettingsPage_RadiobuttonName}"
+                     Style="{DynamicResource RadioButtonStyle}"
                      GroupName="Sort" 
                      Margin="155,0,0,0"
-                     FontSize="17"
                      Command="{Binding RadioButtonChanged}" 
-                     IsChecked="{Binding IsCheckedName}"></RadioButton>
+                     IsChecked="{Binding IsCheckedName}"/>
         <RadioButton Text="{x:Static resources:Resource.SettingsPage_RadiobuttonNick}"
+                     Style="{DynamicResource RadioButtonStyle}"
                      GroupName="Sort" 
                      Margin="155,0,0,0"
-                     FontSize="17"
                      Command="{Binding RadioButtonChanged}"
-                     IsChecked="{Binding IsCheckedNick}"></RadioButton>
+                     IsChecked="{Binding IsCheckedNick}"/>
         <RadioButton Text="{x:Static resources:Resource.SettingsPage_RadiobuttonDate}"
+                     Style="{DynamicResource RadioButtonStyle}"
                      GroupName="Sort" 
                      Margin="155,0,0,0"
-                     FontSize="17"
                      Command="{Binding RadioButtonChanged}"
-                     IsChecked="{Binding IsCheckedDate}"></RadioButton>
-        <Label Text="{x:Static resources:Resource.SettingsPage_LabelLocalization}"
-               FontSize="25"
+                     IsChecked="{Binding IsCheckedDate}"/>
+        <Label Text="{x:Static resources:Resource.SettingsPage_LabelTheme}"
+               Style="{DynamicResource AverageLabelStyle}"
                HorizontalOptions="Center"
-               Margin="0,50,0,10"
-               FontAttributes="Bold"></Label>
+               Margin="0,50,0,10"/>
         <StackLayout Orientation="Horizontal">
         <CheckBox IsChecked="{Binding IsCheckedDark}"
                   Margin="155,0,0,0"></CheckBox>
             <Label Text="{x:Static resources:Resource.SettingsPage_CheckboxLabelDark}"
-                   TextColor="Black"
+                   Style="{DynamicResource AverageLabelStyle}"
                    FontSize="17"
+                   FontAttributes="None"
                    Margin="-6,3,0,0"></Label>
         </StackLayout>
         <Label Text="{x:Static resources:Resource.SettingsPage_LabelLocalization}"
-               FontSize="25"
+               Style="{DynamicResource AverageLabelStyle}"
                HorizontalOptions="Center"
-               Margin="0,50,0,0"
-               FontAttributes="Bold"></Label>
-        <Picker SelectedItem="{Binding PickerItem}">
+               Margin="0,50,0,0"/>
+        <Picker SelectedItem="{Binding PickerItem}"
+                Style="{DynamicResource PickerStyle}">
             <Picker.Items>
                 <x:String>English</x:String>
                 <x:String>Русский</x:String>
             </Picker.Items>
-        </Picker>
+        </Picker> 
 
         <Button Command ="{Binding SaveBClick}" 
                 Text = "{x:Static resources:Resource.SettingsPage_Button}" 
-                WidthRequest="150"
+                Style="{DynamicResource ButtonStyle}"
                 Margin="0, 30, 0, 0"
-                HorizontalOptions="Center"
-                HeightRequest="50" 
-                BackgroundColor= "#2196f3"
-                FontSize="20"
-                BorderWidth="1" 
-                CornerRadius="25"
-                TextColor="White"
-                BorderColor="Black"/>
+                HorizontalOptions="Center"/>
     </StackLayout>
 </ContentPage>

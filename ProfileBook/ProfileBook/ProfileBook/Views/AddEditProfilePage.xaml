@@ -5,6 +5,7 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="ProfileBook.Views.AddEditProfilePage"
              xmlns:resources="clr-namespace:ProfileBook.Resources"
+             BackgroundColor="{DynamicResource PageBackgroundColor}"
              Title="{x:Static resources:Resource.AddEditProfilePage_Title}">
     <ContentPage.ToolbarItems>
         <ToolbarItem       
@@ -20,17 +21,19 @@
             </Image.GestureRecognizers>
         </Image>
         <Entry Text="{Binding NickField}" 
+               Style="{DynamicResource EntryStyle}"
                Placeholder = "{x:Static resources:Resource.AddEditProfilePage_NickPlaceholder}"  
                Margin="50, 20, 50, 0" />
         <Entry Text="{Binding NameField}" 
+               Style="{DynamicResource EntryStyle}"
                Placeholder = "{x:Static resources:Resource.AddEditProfilePage_NamePlaceholder}"  
                Margin="50, 0, 50, 0" />
         <Editor Text="{Binding DescriptionField}" 
+                Style="{DynamicResource EditorStyle}"
                 Placeholder="{x:Static resources:Resource.AddEditProfilePage_DescriptionPlaceholder}" 
                 Margin="50, 20, 50, 0" 
-                HeightRequest="200" 
-                BackgroundColor="LightGray" 
-                MaxLength="120"/>
+                MaxLength="120"
+                HeightRequest="200"/>
     </StackLayout>
 
 

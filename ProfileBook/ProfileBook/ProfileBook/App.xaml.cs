@@ -13,6 +13,8 @@ using Acr.UserDialogs;
 using Rg.Plugins.Popup.Contracts;
 using Rg.Plugins.Popup.Services;
 using System.Globalization;
+using System.Collections.Generic;
+using ProfileBook.Theme;
 
 namespace ProfileBook
 {
@@ -30,6 +32,7 @@ namespace ProfileBook
             InitializeComponent();
 
             SetLocalization();
+            ChangeTheme();
             if (CrossSettings.Current.GetValueOrDefault("UserId", -1) != -1)
             {
                 await NavigationService.NavigateAsync("NavigationPage/MainListPage");                                              
@@ -81,6 +84,37 @@ namespace ProfileBook
                     }
             }
 
+        }
+        private void ChangeTheme()
+        {
+            int selectedTheme = CrossSettings.Current.GetValueOrDefault("Theme", 0);
+            switch (selectedTheme)
+            {
+                case 0:
+                    {
+                        ICollection<ResourceDictionary> mergedDictionaries = Application.Current.Resources.MergedDictionaries;
+                        if (mergedDictionaries != null)
+                        {
+                            mergedDictionaries.Clear();
+                            mergedDictionaries.Add(new LightTheme());
+                        }
+                        break;
+                    }
+                case 1:
+                    {
+                        ICollection<ResourceDictionary> mergedDictionaries = Application.Current.Resources.MergedDictionaries;
+                        if (mergedDictionaries != null)
+                        {
+                            mergedDictionaries.Clear();
+                            mergedDictionaries.Add(new DarkTheme());
+                        }
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
         }
     }
 }

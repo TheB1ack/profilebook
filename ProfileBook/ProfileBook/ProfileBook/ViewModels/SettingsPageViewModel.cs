@@ -4,6 +4,8 @@ using Xamarin.Forms;
 using ProfileBook.Enums;
 using Plugin.Settings;
 using System.Globalization;
+using System.Collections.Generic;
+using ProfileBook.Theme;
 
 namespace ProfileBook.ViewModels
 {
@@ -72,6 +74,7 @@ namespace ProfileBook.ViewModels
             CrossSettings.Current.AddOrUpdateValue("Theme", (int)selectedTheme);
             CrossSettings.Current.AddOrUpdateValue("Localization", (int)selectedLocalization);
             ChangeLocalization((int)selectedLocalization);
+            ChangeTheme();
             await NavigationService.NavigateAsync("../MainListPage");
         }
         private void OnRadioButtonChange()
@@ -197,6 +200,36 @@ namespace ProfileBook.ViewModels
                 case 1:
                     {
                         CultureInfo.CurrentUICulture = new CultureInfo("ru", false);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
+        private void ChangeTheme()
+        {
+            switch ((int)selectedTheme)
+            {
+                case 0:
+                    {
+                        ICollection<ResourceDictionary> mergedDictionaries = Application.Current.Resources.MergedDictionaries;
+                        if (mergedDictionaries != null)
+                        {
+                            mergedDictionaries.Clear();
+                            mergedDictionaries.Add(new LightTheme());
+                        }
+                        break;
+                    }
+                case 1:
+                    {
+                        ICollection<ResourceDictionary> mergedDictionaries = Application.Current.Resources.MergedDictionaries;
+                        if (mergedDictionaries != null)
+                        {
+                            mergedDictionaries.Clear();
+                            mergedDictionaries.Add(new DarkTheme());
+                        }
                         break;
                     }
                 default:

@@ -11,6 +11,7 @@ using Rg.Plugins.Popup.Pages;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Xamarin.Forms;
+using ProfileBook.Theme;
 
 namespace ProfileBook.ViewModels
 {

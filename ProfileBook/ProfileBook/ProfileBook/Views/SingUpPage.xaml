@@ -4,28 +4,28 @@
              xmlns:prism="http://prismlibrary.com"
              x:Class="ProfileBook.Views.SingUpPage"
              xmlns:resources="clr-namespace:ProfileBook.Resources"
+             BackgroundColor="{DynamicResource PageBackgroundColor}"
              Title="{x:Static resources:Resource.SingUpPage_Title}">
     <StackLayout>
         <Entry Text="{Binding LoginField}" 
+               Style="{DynamicResource EntryStyle}"
                Placeholder = "{x:Static resources:Resource.SingUpPage_LoginPlaceholder}" 
                Margin="50, 240, 50, 0" />
         <Entry Text="{Binding PasswordField}"
+               Style="{DynamicResource EntryStyle}"
                Placeholder = "{x:Static resources:Resource.SingUpPage_PasswordPlaceholder}" 
                IsPassword ="True" 
                Margin="50, 0, 50, 0" />
-        <Entry Text="{Binding SPasswordField}"  
+        <Entry Text="{Binding SPasswordField}"
+               Style="{DynamicResource EntryStyle}"
                Placeholder = "{x:Static resources:Resource.SingUpPage_SecondPasswordPlaceholder}"
                IsPassword ="True" 
                Margin="50, 0, 50, 0" />
-        <Button Command="{Binding SingUpBClick}" 
+        <Button Command="{Binding SingUpBClick}"
+                Style="{DynamicResource ButtonStyle}"
                 IsEnabled="{Binding IsButtonEnable}" 
                 Text = "{x:Static resources:Resource.SingUpPage_Button}" 
-                Margin="50, 110, 50, 0" 
-                HeightRequest="60" 
-                BackgroundColor="#D2691E" 
-                FontSize="20" 
-                BorderWidth="1" 
-                BorderColor="Black" />
+                Margin="50, 110, 50, 0" />
     </StackLayout>
   
 </ContentPage>
